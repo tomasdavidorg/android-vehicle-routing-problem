@@ -1,4 +1,148 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import java.nio.channels.Channels
+import java.nio.channels.ReadableByteChannel
+
+String OPENBEANS_URL = "https://openbeans.googlecode.com/files/openbeans-1.0.jar";
+String JARJAR_URL = "https://jarjar.googlecode.com/files/jarjar-1.4.jar";
+
+String JAVABEANS = "javabeans.jar"
+String OPENBEANS = "openbeans.jar";
+String JARJAR = "jarjar.jar";
+String RULES = "rule.txt";
+String LIBS_DIR = "app/libs/";
+
+String RULE = "rule com.googlecode.openbeans.** java.beans.@1";
+String COMMAND = "java -jar " + JARJAR + " process " + RULES + " " + OPENBEANS + " " + JAVABEANS;
+
+/**
+ * Downloads file from url.
+ * @param url Url of file.
+ * @param path Output path.
+ */
+void downloadJar(String url, String path) {
+    File file = new File(path);
+    if (!file.exists()) {
+        URL fileUrl = new URL(url);
+        ReadableByteChannel rbc = Channels.newChannel(fileUrl.openStream());
+        FileOutputStream fos = new FileOutputStream(path);
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+    }
+}
+
+/**
+ * Deletes specified file.
+ * @param path Path to file.
+ */
+void deleteFile(String path) {
+    File file = new File(path);
+    if (file.exists()) {
+        file.delete()
+    }
+}
+
+task checkLibsDir {
+    description = "Checks if " + LIBS_DIR + " directory exists.";
+    group = "Preparation";
+}
+
+checkLibsDir << {
+    logger.info("Checking directory: '{}'", LIBS_DIR);
+    File libs = new File(LIBS_DIR);
+    if (!libs.exists()) {
+        libs.mkdir();
+    }
+}
+
+task deleteJarJar {
+    description = "Deletes " + JARJAR + " file.";
+    group = "Preparation";
+}
+
+deleteJarJar << {
+    logger.info("Deleting file: '{}'", JARJAR);
+    deleteFile(LIBS_DIR + JARJAR);
+}
+
+task deleteOpenBeans {
+    description = "Deletes " + OPENBEANS + " file.";
+    group = "Preparation";
+}
+
+deleteOpenBeans << {
+    logger.info("Deleting file: '{}'", OPENBEANS);
+    deleteFile(LIBS_DIR + OPENBEANS);
+}
+
+task deleteJavaBeans {
+    description = "Deletes " + JAVABEANS + " file.";
+    group = "Preparation";
+}
+
+deleteJavaBeans << {
+    logger.info("Deleting file: '{}'", JAVABEANS);
+    deleteFile(LIBS_DIR + JAVABEANS);
+}
+
+task deleteRule {
+    description = "Deletes " + RULES + " file.";
+    group = "Preparation";
+}
+
+deleteRule << {
+    logger.info("Deleting file: '{}'", RULES);
+    deleteFile(LIBS_DIR + RULES);
+}
+
+task downloadJarJar {
+    description = "Downloads " + JARJAR + " file.";
+    group = "Preparation";
+}
+
+downloadJarJar << {
+    logger.info("Downloading file: '{}' to '{}'", JARJAR, LIBS_DIR);
+    downloadJar(JARJAR_URL, LIBS_DIR + JARJAR);
+}
+
+task dowloadOpenBeans {
+    description = "Downloads " + OPENBEANS + " file.";
+    group = "Preparation";
+}
+
+dowloadOpenBeans << {
+    logger.info("Downloading file: '{}' to '{}'", OPENBEANS, LIBS_DIR);
+    downloadJar(OPENBEANS_URL, LIBS_DIR + OPENBEANS);
+}
+
+task createRuleFile {
+    description = "Creates " + RULES + " file.";
+    group = "Preparation";
+}
+
+createRuleFile << {
+    File rule = new File(LIBS_DIR + RULES);
+    if (!rule.exists()) {
+        logger.info("Creating file: '{}' in '{}'", RULES, LIBS_DIR);
+        PrintWriter writer = new PrintWriter(rule, "UTF-8");
+        logger.info("Writing rule: '{}' to '{}'", RULE, RULES);
+        writer.println(RULE);
+        writer.close();
+    }
+}
+
+task repackOpenBeans {
+    description = "Repacks " + OPENBEANS + " file to " + JAVABEANS + " file.";
+    group = "Preparation";
+}
+
+repackOpenBeans << {
+    logger.info("Running command: '{}' in '{}'", COMMAND, LIBS_DIR);
+    Runtime.getRuntime().exec(COMMAND, null, new File(LIBS_DIR)).waitFor();
+}
+
+createRuleFile.dependsOn checkLibsDir
+downloadJarJar.dependsOn checkLibsDir
+dowloadOpenBeans.dependsOn checkLibsDir
+repackOpenBeans.dependsOn deleteJavaBeans, createRuleFile, downloadJarJar, dowloadOpenBeans
+repackOpenBeans.finalizedBy deleteJarJar, deleteOpenBeans, deleteRule
 
 buildscript {
     repositories {
@@ -6,9 +150,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.14.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
