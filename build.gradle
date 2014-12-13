@@ -13,7 +13,7 @@ String LIBS_DIR = "app/libs/";
 String RULE = "rule com.googlecode.openbeans.** java.beans.@1";
 String COMMAND = "java -jar " + JARJAR + " process " + RULES + " " + OPENBEANS + " " + JAVABEANS;
 
-String BUILD_TOOLS = "build-tools/21.1.1/dx";
+String BUILD_TOOLS = "build-tools/21.1.2/dx";
 
 /**
  * Downloads file from url.
@@ -179,7 +179,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.4'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
