@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Vehicle routing problem</string>
+    <string name="app_name">VRP</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_run">Run</string>
+    <string name="action_load">Load</string>
+    <string name="action_save">Save</string>
 
 </resources>
