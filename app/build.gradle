@@ -39,4 +39,7 @@ dependencies {
         exclude group: 'xmlpull'
         exclude group: 'org.drools'
     }
+    compile ('org.drools:drools-core:6.1.0.Final') {
+        transitive = false
+    }
 }
