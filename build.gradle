@@ -13,8 +13,6 @@ String LIBS_DIR = "app/libs/";
 String RULE = "rule com.googlecode.openbeans.** java.beans.@1";
 String COMMAND = "java -jar " + JARJAR + " process " + RULES + " " + OPENBEANS + " " + JAVABEANS;
 
-String BUILD_TOOLS = "build-tools/21.1.2/dx";
-
 /**
  * Downloads file from url.
  * @param url Url of file.
@@ -149,7 +147,8 @@ editDx << {
     logger.info("Reading properties: getting sdk.dir");
     Properties properties = new Properties();
     properties.load(project.rootProject.file('local.properties').newDataInputStream());
-    String dxLocation = properties.getProperty('sdk.dir') + "/" + BUILD_TOOLS;
+    String dxLocation = properties.getProperty('sdk.dir') + "/build-tools/";
+    dxLocation += properties.getProperty('build-tools.version') + "/dx";
 
     logger.info("Reading file: dx");
     String line;
@@ -160,12 +159,15 @@ editDx << {
     }
 
     logger.info("Adding parameter: --core-library");
-    String newDx = dx.toString().replace("\"\$@\"", "--core-library \"\$@\"");
+    String oldDx = dx.toString();
+    if (!oldDx.contains("--core-library \"\$@\"")) {
+        String newDx = oldDx.replace("\"\$@\"", "--core-library \"\$@\"");
 
-    logger.info("Writing changes to file: dx");
-    FileOutputStream fos = new FileOutputStream(dxLocation);
-    fos.write(newDx.getBytes());
-    fos.close();
+        logger.info("Writing changes to file: dx");
+        FileOutputStream fos = new FileOutputStream(dxLocation);
+        fos.write(newDx.getBytes());
+        fos.close();
+    }
 }
 
 createRuleFile.dependsOn checkLibsDir
