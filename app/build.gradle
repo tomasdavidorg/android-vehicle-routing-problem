@@ -41,7 +41,11 @@ dependencies {
         // todo exclude, didn't work on optaplanner 6.1.0
         //exclude group: 'org.kie'
     }
+
+    // version 6.1.0 requires some classes from drools-core even if java score calculation is used
+    /*
     compile ('org.drools:drools-core:6.1.0.Final') {
         transitive = false
     }
+    */
 }
