@@ -19,6 +19,7 @@ package org.optaplanner.examples.vehiclerouting.domain;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import org.optaplanner.examples.common.domain.AbstractPersistable;
+import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
 
 @XStreamAlias("VrpDepot")
@@ -40,5 +41,13 @@ public class Depot extends AbstractPersistable {
     // ************************************************************************
     // Complex methods
     // ************************************************************************
+
+    /**
+     * @param standstill never null
+     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     */
+    public int getDistanceTo(Standstill standstill) {
+        return location.getDistance(standstill.getLocation());
+    }
 
 }

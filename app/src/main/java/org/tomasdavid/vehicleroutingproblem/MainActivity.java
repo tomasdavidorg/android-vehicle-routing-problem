@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Location;
+
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaplanner.examples.vehiclerouting.domain.location.AirLocation;
+import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,25 +62,25 @@ public class MainActivity extends ActionBarActivity {
         StringBuilder s = new StringBuilder();
         s.append("INFO: \n");
 
-        Location loc1 = new Location();
+        AirLocation loc1 = new AirLocation();
         loc1.setLatitude(0);
         loc1.setLongitude(0);
         loc1.setName("one");
         loc1.setId(1l);
 
-        Location loc2 = new Location();
+        AirLocation loc2 = new AirLocation();
         loc2.setLatitude(0);
         loc2.setLongitude(0.3);
         loc2.setName("two");
         loc2.setId(2l);
 
-        Location loc3 = new Location();
+        AirLocation loc3 = new AirLocation();
         loc3.setLatitude(0.3);
         loc3.setLongitude(0.3);
         loc3.setName("three");
         loc3.setId(3l);
 
-        Location loc4 = new Location();
+        AirLocation loc4 = new AirLocation();
         loc4.setLatitude(0.3);
         loc4.setLongitude(0);
         loc4.setName("four");
@@ -113,19 +115,19 @@ public class MainActivity extends ActionBarActivity {
         cus3.setLocation(loc4);
         cus3.setId(10l);
 
-        List<Location> ll = new LinkedList<>();
+        List<Location> ll = new ArrayList<>();
         ll.add(loc1);
         ll.add(loc2);
         ll.add(loc3);
         ll.add(loc4);
 
-        List<Depot> dl = new LinkedList<>();
+        List<Depot> dl = new ArrayList<>();
         dl.add(dep1);
 
         s.append("Depot " + dep1.getId() + " on location " +
                 dep1.getLocation().getLatitude() + "x" + dep1.getLocation().getLongitude() + "\n");
 
-        List<Vehicle> vl = new LinkedList<>();
+        List<Vehicle> vl = new ArrayList<>();
         vl.add(veh1);
         vl.add(veh2);
 
@@ -133,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
             s.append("Vehicle " + v.getId() + " with capacity " + v.getCapacity() + "\n");
         }
 
-        List<Customer> cl = new LinkedList<>();
+        List<Customer> cl = new ArrayList<>();
         cl.add(cus1);
         cl.add(cus2);
         cl.add(cus3);

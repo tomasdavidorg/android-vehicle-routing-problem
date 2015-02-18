@@ -23,18 +23,18 @@ import java.util.Map;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.impl.score.director.easy.EasyScoreCalculator;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
+import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedVehicleRoutingSolution;
 
 public class VehicleRoutingEasyScoreCalculator implements EasyScoreCalculator<VehicleRoutingSolution> {
 
-    public HardSoftScore calculateScore(VehicleRoutingSolution schedule) {
-        boolean timeWindowed = schedule instanceof TimeWindowedVehicleRoutingSolution;
-        List<Customer> customerList = schedule.getCustomerList();
-        List<Vehicle> vehicleList = schedule.getVehicleList();
+    public HardSoftScore calculateScore(VehicleRoutingSolution solution) {
+        boolean timeWindowed = solution instanceof TimeWindowedVehicleRoutingSolution;
+        List<Customer> customerList = solution.getCustomerList();
+        List<Vehicle> vehicleList = solution.getVehicleList();
         Map<Vehicle, Integer> vehicleDemandMap = new HashMap<Vehicle, Integer>(vehicleList.size());
         for (Vehicle vehicle : vehicleList) {
             vehicleDemandMap.put(vehicle, 0);
@@ -47,10 +47,10 @@ public class VehicleRoutingEasyScoreCalculator implements EasyScoreCalculator<Ve
                 Vehicle vehicle = customer.getVehicle();
                 vehicleDemandMap.put(vehicle, vehicleDemandMap.get(vehicle) + customer.getDemand());
                 // Score constraint distanceToPreviousStandstill
-                softScore -= customer.getDistanceToPreviousStandstill();
+                softScore -= customer.getDistanceFromPreviousStandstill();
                 if (customer.getNextCustomer() == null) {
                     // Score constraint distanceFromLastCustomerToDepot
-                    softScore -= vehicle.getLocation().getDistance(customer.getLocation());
+                    softScore -= customer.getLocation().getDistance(vehicle.getLocation());
                 }
                 if (timeWindowed) {
                     TimeWindowedCustomer timeWindowedCustomer = (TimeWindowedCustomer) customer;

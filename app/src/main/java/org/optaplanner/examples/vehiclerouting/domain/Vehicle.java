@@ -18,6 +18,7 @@ package org.optaplanner.examples.vehiclerouting.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.examples.common.domain.AbstractPersistable;
+import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 
 @XStreamAlias("VrpVehicle")
 public class Vehicle extends AbstractPersistable implements Standstill {
@@ -62,6 +63,14 @@ public class Vehicle extends AbstractPersistable implements Standstill {
 
     public Location getLocation() {
         return depot.getLocation();
+    }
+
+    /**
+     * @param standstill never null
+     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     */
+    public int getDistanceTo(Standstill standstill) {
+        return depot.getDistanceTo(standstill);
     }
 
     @Override
