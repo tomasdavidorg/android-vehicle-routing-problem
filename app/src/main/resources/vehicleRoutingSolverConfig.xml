@@ -17,37 +17,30 @@
     <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
   </scoreDirectorFactory>
 
-    <exhaustiveSearch>
-        <exhaustiveSearchType>BRANCH_AND_BOUND</exhaustiveSearchType>
-    </exhaustiveSearch>
+    <constructionHeuristic>
+        <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+    </constructionHeuristic>
+    <localSearch>
+        <unionMoveSelector>
+            <changeMoveSelector/>
+            <swapMoveSelector/>
+            <subChainChangeMoveSelector>
+                <selectReversingMoveToo>true</selectReversingMoveToo>
+            </subChainChangeMoveSelector>
+            <subChainSwapMoveSelector>
+                <selectReversingMoveToo>true</selectReversingMoveToo>
+            </subChainSwapMoveSelector>
+        </unionMoveSelector>
+        <acceptor>
+            <lateAcceptanceSize>200</lateAcceptanceSize>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>1</acceptedCountLimit>
+        </forager>
+        <termination>
 
-  <!--<termination>-->
-    <!--<minutesSpentLimit>5</minutesSpentLimit>-->
-  <!--</termination>-->
-  <!--<constructionHeuristic>-->
-    <!--<constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>-->
-  <!--</constructionHeuristic>-->
-  <!--<localSearch>-->
-    <!--<unionMoveSelector>-->
-      <!--<changeMoveSelector/>-->
-      <!--<swapMoveSelector/>-->
-      <!--<subChainChangeMoveSelector>-->
-        <!--<selectReversingMoveToo>true</selectReversingMoveToo>-->
-      <!--</subChainChangeMoveSelector>-->
-      <!--<subChainSwapMoveSelector>-->
-        <!--<selectReversingMoveToo>true</selectReversingMoveToo>-->
-      <!--</subChainSwapMoveSelector>-->
-    <!--</unionMoveSelector>-->
-    <!--<acceptor>-->
-      <!--<lateAcceptanceSize>200</lateAcceptanceSize>-->
-    <!--</acceptor>-->
-    <!--<forager>-->
-      <!--<acceptedCountLimit>1</acceptedCountLimit>-->
-    <!--</forager>-->
-      <!--<termination>-->
+            <minutesSpentLimit>1</minutesSpentLimit>
 
-          <!--<minutesSpentLimit>1</minutesSpentLimit>-->
-
-      <!--</termination>-->
-  <!--</localSearch>-->
+        </termination>
+    </localSearch>
 </solver>
