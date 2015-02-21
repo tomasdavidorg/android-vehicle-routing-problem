@@ -6,6 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
+
+import java.io.IOException;
+
 public class MainActivity extends ActionBarActivity {
 
     @Override
@@ -14,7 +19,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void click(View view) {
+    public void click(View view) throws IOException {
+        VehicleRoutingSolution vrs = (VehicleRoutingSolution) VehicleRoutingImporter
+                .readSolution("A-n32-k5.vrp", getAssets().open("A-n32-k5.vrp"));
+        new SolverTask(this).execute(vrs);
     }
 
     @Override
