@@ -3,27 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
     <item android:id="@+id/action_run"
-        android:icon="@drawable/abc_ic_go_search_api_mtrl_alpha"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
         android:title="@string/action_run"
         android:orderInCategory="10"
         app:showAsAction="always" />
 
-    <item android:id="@+id/action_load"
-        android:icon="@drawable/abc_btn_switch_to_on_mtrl_00001"
-        android:title="@string/action_load"
-        android:orderInCategory="20"
-        app:showAsAction="always" />
-
-    <item android:id="@+id/action_save"
-        android:icon="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
-        android:title="@string/action_save"
-        android:orderInCategory="30"
-        app:showAsAction="always" />
-
-
-    <item android:id="@+id/action_settings"
-        android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
-        android:title="@string/action_settings"
-        android:orderInCategory="40"
-        app:showAsAction="always" />
 </menu>
