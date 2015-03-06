@@ -39,7 +39,7 @@
         </forager>
         <termination>
 
-            <minutesSpentLimit>1</minutesSpentLimit>
+            <secondsSpentLimit>1</secondsSpentLimit>
 
         </termination>
     </localSearch>
