@@ -31,29 +31,6 @@ public class VrpPainter {
     private static final int TIME_WINDOW_DIAMETER = 50;
 
     /**
-     * Line colors list.
-     */
-    private static final int[] COLOR_SEQUENCE = {
-            R.color.blue,
-            R.color.red,
-            R.color.green,
-            R.color.orange,
-            R.color.purple,
-            R.color.yellow,
-            R.color.brown
-    };
-
-    private static final int[] VEHICLES = {
-            R.drawable.vehicle_blue,
-            R.drawable.vehicle_red,
-            R.drawable.vehicle_green,
-            R.drawable.vehicle_orange,
-            R.drawable.vehicle_purple,
-            R.drawable.vehicle_yellow,
-            R.drawable.vehicle_brown
-    };
-
-    /**
      * Customer, depot, line and text paint.
      */
     private Paint cp, dp, lp, tp;
@@ -159,7 +136,7 @@ public class VrpPainter {
         int colorIndex = 0;
 
         for (Vehicle vehicle : vrs.getVehicleList()) {
-            lp.setColor(res.getColor(COLOR_SEQUENCE[colorIndex]));
+            lp.setColor((res.obtainTypedArray(R.array.vehicle_colors).getColor(colorIndex, 0)));
             Customer vehicleInfoCustomer = null;
             int longestNonDepotDistance = -1;
             int load = 0;
@@ -207,14 +184,15 @@ public class VrpPainter {
                 boolean ascending = (previousLocation.getLongitude() < location.getLongitude())
                         ^ (previousLocation.getLatitude() < location.getLatitude());
 
-                Bitmap vehicleBitmap = BitmapFactory.decodeResource(res, VEHICLES[colorIndex]);
+                Bitmap vehicleBitmap = BitmapFactory.decodeResource(res, res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0));
                 int vehicleInfoHeight = vehicleBitmap.getHeight() + 2 + TEXT_SIZE;
 
                 c.drawBitmap(vehicleBitmap, x + 1, (ascending ? y - vehicleInfoHeight - 1 : y + 1), null);
                 c.drawText(load + " / " + vehicle.getCapacity(), x + 1, (ascending ? y - 1 : y + vehicleInfoHeight + 1), tp);
                 tp.setColor(res.getColor(R.color.black));
             }
-            colorIndex = (colorIndex + 1) % COLOR_SEQUENCE.length;
+
+            colorIndex = (colorIndex + 1) % res.obtainTypedArray(R.array.vehicle_colors).length();
         }
 //
 //        // Legend

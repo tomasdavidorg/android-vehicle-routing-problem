@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="vehicles">
+        <item>@drawable/vehicle_red</item>
+        <item>@drawable/vehicle_green</item>
+        <item>@drawable/vehicle_blue</item>
+        <item>@drawable/vehicle_orange</item>
+        <item>@drawable/vehicle_purple</item>
+        <item>@drawable/vehicle_brown</item>
+        <item>@drawable/vehicle_yellow</item>
+    </array>
+
+    <array name="vehicle_colors">
+        <item>@color/red</item>
+        <item>@color/green</item>
+        <item>@color/blue</item>
+        <item>@color/orange</item>
+        <item>@color/purple</item>
+        <item>@color/brown</item>
+        <item>@color/yellow</item>
+    </array>
+</resources>
