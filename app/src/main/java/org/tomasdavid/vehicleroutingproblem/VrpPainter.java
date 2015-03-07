@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Paint.Cap;
+import android.graphics.Paint.Join;
 import android.graphics.Path;
 import android.graphics.RectF;
 
@@ -25,119 +27,121 @@ import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedD
 // todo double buffering
 public class VrpPainter {
 
-    private final int D = 6; //todo density
-
-    private static final int TEXT_SIZE = 30;
-    private static final int TIME_WINDOW_DIAMETER = 50;
+    /**
+     * Application resources.
+     */
+    private Resources res;
 
     /**
-     * Customer, depot, line and text paint.
+     * Canvas for painting.
      */
-    private Paint cp, dp, lp, tp;
+    private Canvas c;
 
-    private void initPaint(Resources res) {
+    /**
+     * Customer, depot, line, text and time-window paint.
+     */
+    private Paint cp, dp, lp, tp, wp;
+
+    /**
+     * Constructor for vehicle routing problem painter.
+     * @param res Application resources.
+     * @param c Canvas for painting.
+     */
+    public VrpPainter(Resources res, Canvas c) {
+        this.res = res;
+        this.c = c;
+
         cp = new Paint();
         cp.setColor(res.getColor(R.color.grey));
+        cp.setAntiAlias(true);
 
         dp = new Paint();
         dp.setColor(res.getColor(R.color.blue_grey));
+        dp.setAntiAlias(true);
 
         lp = new Paint();
         lp.setStyle(Style.STROKE);
         lp.setAntiAlias(true);
         lp.setStrokeWidth(3.0f);
+        lp.setStrokeCap(Cap.ROUND);
+        lp.setStrokeJoin(Join.ROUND);
 
         tp = new Paint();
         tp.setColor(res.getColor(R.color.black));
-        tp.setTextSize(TEXT_SIZE);
+        tp.setTextSize(res.getDimension(R.dimen.text_size));
+        tp.setAntiAlias(true);
+
+        wp = new Paint();
+        wp.setColor(res.getColor(R.color.light_grey));
+        wp.setAntiAlias(true);
     }
 
-    public void paint(VehicleRoutingSolution vrs, Canvas c, Resources res) {
-        initPaint(res);
-
+    public void paint(VehicleRoutingSolution vrs) {
+        int mtwt = determineMaximumTimeWindowTime(vrs);
         float width = c.getWidth();
         float height = c.getHeight();
-
-        LatitudeLongitudeTranslator tlr = new LatitudeLongitudeTranslator(vrs, width, height);
-
-        int maximumTimeWindowTime = determineMaximumTimeWindowTime(vrs);
-
-//        g.setFont(g.getFont().deriveFont((float) TEXT_SIZE));
-//        g.setStroke(TangoColorFactory.NORMAL_STROKE);
-
-        // customer paint
-
+        float lpr = res.getDimension(R.dimen.location_point_radius);
+        float twd = res.getDimension(R.dimen.time_window_diameter);
+        LatitudeLongitudeTranslator llt = new LatitudeLongitudeTranslator(vrs, width, height,
+                res.getDimension(R.dimen.canvas_margin));
 
         for (Customer customer : vrs.getCustomerList()) {
             Location location = customer.getLocation();
-            int x = tlr.translateLongitudeToX(location.getLongitude());
-            int y = tlr.translateLatitudeToY(location.getLatitude());
-            c.drawRect(x - D, y - D, x + D, y + D, cp);
+            int x = llt.translateLongitudeToX(location.getLongitude());
+            int y = llt.translateLatitudeToY(location.getLatitude());
+            c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, cp);
 
             String demandString = Integer.toString(customer.getDemand());
-            c.drawText(demandString, x - (tp.measureText(demandString) / 2), y - TEXT_SIZE/2, tp);
+            c.drawText(demandString, x - (tp.measureText(demandString) / 2),
+                    y - res.getDimension(R.dimen.text_size) / 2, tp);
 
             if (customer instanceof TimeWindowedCustomer) {
-                TimeWindowedCustomer timeWindowedCustomer = (TimeWindowedCustomer) customer;
-                cp.setColor(res.getColor(R.color.light_grey));
-                int circleX = x - (TIME_WINDOW_DIAMETER / 2);
+                TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
+                int circleX = (int) (x - (twd / 2));
                 int circleY = y + 5;
-                cp.setStyle(Style.STROKE);
-                c.drawOval(new RectF(circleX + D, circleY + D, circleX + D + TIME_WINDOW_DIAMETER, circleY + D + TIME_WINDOW_DIAMETER), cp);
-                cp.setStyle(Style.FILL);
-                c.drawArc(new RectF(circleX + D, circleY + D, circleX + D + TIME_WINDOW_DIAMETER, circleY + D + TIME_WINDOW_DIAMETER),
-                        0 - calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getReadyTime()),
-                        calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getReadyTime())
-                                - calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getDueTime()), true, cp);
+                wp.setStyle(Style.STROKE);
+                RectF tw = new RectF(circleX + lpr, circleY + lpr, circleX + lpr + twd,
+                        circleY + lpr + twd);
+                c.drawOval(tw, wp);
+                wp.setStyle(Style.FILL);
+                c.drawArc(tw, 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime()),
+                        calculateTimeWindowDegree(mtwt, twc.getReadyTime())
+                                - calculateTimeWindowDegree(mtwt, twc.getDueTime()), true, wp);
 
-                //g.drawOval(circleX, circleY, TIME_WINDOW_DIAMETER, TIME_WINDOW_DIAMETER);
-                //g.fillArc(circleX, circleY, TIME_WINDOW_DIAMETER, TIME_WINDOW_DIAMETER,
-//                        90 - calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getReadyTime()),
-//                        calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getReadyTime())
-//                                - calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getDueTime()));
-                if (timeWindowedCustomer.getArrivalTime() != null) {
-                    if (timeWindowedCustomer.isArrivalAfterDueTime()) {
+                if (twc.getArrivalTime() != null) {
+                    if (twc.isArrivalAfterDueTime()) {
                         lp.setColor(res.getColor(R.color.dark_red));
-//                        g.setColor(TangoColorFactory.SCARLET_2);
-                    } else if (timeWindowedCustomer.isArrivalBeforeReadyTime()) {
+                    } else if (twc.isArrivalBeforeReadyTime()) {
                         lp.setColor(res.getColor(R.color.dark_orange));
-//                        g.setColor(TangoColorFactory.ORANGE_2);
                     } else {
                         lp.setColor(res.getColor(R.color.dark_grey));
-//                        g.setColor(TangoColorFactory.ALUMINIUM_6);
                     }
-                    lp.setStrokeWidth(5.0f);
-//                    g.setStroke(TangoColorFactory.THICK_STROKE);
-                    int circleCenterY = y + 5 + TIME_WINDOW_DIAMETER / 2;
-                    int angle = calculateTimeWindowDegree(maximumTimeWindowTime, timeWindowedCustomer.getArrivalTime());
-                    c.drawLine(x + D, circleCenterY + D,
-                            x + D + (int) (Math.sin(Math.toRadians(angle)) * (TIME_WINDOW_DIAMETER / 2 + 3)),
-                            circleCenterY + D - (int) (Math.cos(Math.toRadians(angle)) * (TIME_WINDOW_DIAMETER / 2 + 3)), lp);
-//                    g.drawLine(x, circleCenterY,
-//                            x + (int) (Math.sin(Math.toRadians(angle)) * (TIME_WINDOW_DIAMETER / 2 + 3)),
-//                            circleCenterY - (int) (Math.cos(Math.toRadians(angle)) * (TIME_WINDOW_DIAMETER / 2 + 3)));
-//                    g.setStroke(TangoColorFactory.NORMAL_STROKE);
-
-                    lp.setStrokeWidth(3.0f);
-                    cp.setColor(res.getColor(R.color.grey));
+                    lp.setStrokeWidth(res.getDimension(R.dimen.stroke_thick));
+                    int circleCenterY = (int) (y + 5 + twd / 2);
+                    int angle = calculateTimeWindowDegree(mtwt, twc.getArrivalTime());
+                    c.drawLine(x + lpr, circleCenterY + lpr,
+                            x + lpr + (int) (Math.sin(Math.toRadians(angle)) * (twd / 2 + 3)),
+                            circleCenterY + lpr - (int) (Math.cos(Math.toRadians(angle))
+                                    * (twd / 2 + 3)), lp);
+                    lp.setStrokeWidth(res.getDimension(R.dimen.stroke_normal));
                 }
             }
         }
 
-
         for (Depot depot : vrs.getDepotList()) {
-            int x = tlr.translateLongitudeToX(depot.getLocation().getLongitude());
-            int y = tlr.translateLatitudeToY(depot.getLocation().getLatitude());
-            c.drawRect(x - D, y - D, x + D, y + D, dp);
+            int x = llt.translateLongitudeToX(depot.getLocation().getLongitude());
+            int y = llt.translateLatitudeToY(depot.getLocation().getLatitude());
+            c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, dp);
             Bitmap depotBitmap = BitmapFactory.decodeResource(res, R.drawable.depot);
-            c.drawBitmap(depotBitmap, x - depotBitmap.getWidth() / 2, y - D - depotBitmap.getHeight(), null);
+            c.drawBitmap(depotBitmap, x - depotBitmap.getWidth() / 2,
+                    y - lpr - depotBitmap.getHeight(), null);
         }
 
         int colorIndex = 0;
 
         for (Vehicle vehicle : vrs.getVehicleList()) {
             lp.setColor((res.obtainTypedArray(R.array.vehicle_colors).getColor(colorIndex, 0)));
-            Customer vehicleInfoCustomer = null;
+            Customer vic = null;
             int longestNonDepotDistance = -1;
             int load = 0;
             for (Customer customer : vrs.getCustomerList()) {
@@ -145,25 +149,24 @@ public class VrpPainter {
                     load += customer.getDemand();
                     Location previousLocation = customer.getPreviousStandstill().getLocation();
                     Location location = customer.getLocation();
-                    drawRoute(c, tlr, previousLocation.getLongitude(), previousLocation.getLatitude(),
-                            location.getLongitude(), location.getLatitude(),
-                            location instanceof AirLocation);
-                    // Determine where to draw the vehicle info
+                    drawRoute(c, llt, previousLocation.getLongitude(),
+                            previousLocation.getLatitude(), location.getLongitude(),
+                            location.getLatitude(), location instanceof AirLocation);
                     int distance = customer.getDistanceFromPreviousStandstill();
+
                     if (customer.getPreviousStandstill() instanceof Customer) {
                         if (longestNonDepotDistance < distance) {
                             longestNonDepotDistance = distance;
-                            vehicleInfoCustomer = customer;
+                            vic = customer;
                         }
-                    } else if (vehicleInfoCustomer == null) {
-                        // If there is only 1 customer in this chain, draw it on a line to the Depot anyway
-                        vehicleInfoCustomer = customer;
+                    } else if (vic == null) {
+                        vic = customer;
                     }
-                    // Line back to the vehicle depot
+
                     if (customer.getNextCustomer() == null) {
                         Location vehicleLocation = vehicle.getLocation();
                         lp.setPathEffect(new DashPathEffect(new float[] {25.0f, 25.0f}, 0.0f));
-                        drawRoute(c, tlr, location.getLongitude(), location.getLatitude(),
+                        drawRoute(c, llt, location.getLongitude(), location.getLatitude(),
                                 vehicleLocation.getLongitude(), vehicleLocation.getLatitude(),
                                 location instanceof AirLocation);
                         lp.setPathEffect(null);
@@ -171,24 +174,26 @@ public class VrpPainter {
                 }
             }
 
-            if (vehicleInfoCustomer != null) {
+            if (vic != null) {
                 if (load > vehicle.getCapacity()) {
                     tp.setColor(res.getColor(R.color.dark_red));
                 }
-                Location previousLocation = vehicleInfoCustomer.getPreviousStandstill().getLocation();
-                Location location = vehicleInfoCustomer.getLocation();
-                double longitude = (previousLocation.getLongitude() + location.getLongitude()) / 2.0;
-                int x = tlr.translateLongitudeToX(longitude);
-                double latitude = (previousLocation.getLatitude() + location.getLatitude()) / 2.0;
-                int y = tlr.translateLatitudeToY(latitude);
-                boolean ascending = (previousLocation.getLongitude() < location.getLongitude())
-                        ^ (previousLocation.getLatitude() < location.getLatitude());
+                Location prevLocation = vic.getPreviousStandstill().getLocation();
+                Location location = vic.getLocation();
+                double longitude = (prevLocation.getLongitude() + location.getLongitude()) / 2.0;
+                int x = llt.translateLongitudeToX(longitude);
+                double latitude = (prevLocation.getLatitude() + location.getLatitude()) / 2.0;
+                int y = llt.translateLatitudeToY(latitude);
+                boolean ascending = (prevLocation.getLongitude() < location.getLongitude())
+                        ^ (prevLocation.getLatitude() < location.getLatitude());
 
-                Bitmap vehicleBitmap = BitmapFactory.decodeResource(res, res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0));
-                int vehicleInfoHeight = vehicleBitmap.getHeight() + 2 + TEXT_SIZE;
+                int resId = res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0);
+                Bitmap vehBitmap = BitmapFactory.decodeResource(res, resId);
+                int vih = (int) (vehBitmap.getHeight() + 2 + res.getDimension(R.dimen.text_size));
 
-                c.drawBitmap(vehicleBitmap, x + 1, (ascending ? y - vehicleInfoHeight - 1 : y + 1), null);
-                c.drawText(load + " / " + vehicle.getCapacity(), x + 1, (ascending ? y - 1 : y + vehicleInfoHeight + 1), tp);
+                c.drawBitmap(vehBitmap, x + 1, (ascending ? y - vih - 1 : y + 1), null);
+                c.drawText(load + " / " + vehicle.getCapacity(), x + 1,
+                        (ascending ? y - 1 : y + vih + 1), tp);
                 tp.setColor(res.getColor(R.color.black));
             }
 
@@ -267,6 +272,7 @@ public class VrpPainter {
             line.moveTo(x1, y1);
             line.lineTo(x2, y2);
             c.drawPath(line, lp);
+            //TODO curve
 //        } else {
 //            double xDistPart = (x2 - x1) / 3.0;
 //            double yDistPart = (y2 - y1) / 3.0;

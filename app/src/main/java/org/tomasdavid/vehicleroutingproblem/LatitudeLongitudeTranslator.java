@@ -9,47 +9,48 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 //todo margin for various displays
 public class LatitudeLongitudeTranslator {
 
-    private double MARGIN = 50.0;
-    private double minimumLatitude = Double.MAX_VALUE;
-    private double maximumLatitude = -Double.MAX_VALUE;
-    private double minimumLongitude = Double.MAX_VALUE;
-    private double maximumLongitude = -Double.MAX_VALUE;
+    private float margin = 0.0f;
+    private double minLatitude = Double.MAX_VALUE;
+    private double maxLatitude = -Double.MAX_VALUE;
+    private double minLongitude = Double.MAX_VALUE;
+    private double maxLongitude = -Double.MAX_VALUE;
     private double latitudeLength = 0.0;
     private double longitudeLength = 0.0;
     private double width = 0.0;
     private double height = 0.0;
 
-    public LatitudeLongitudeTranslator(VehicleRoutingSolution vrs, double width, double height) {
+    public LatitudeLongitudeTranslator(VehicleRoutingSolution vrs, double width, double height, float margin) {
         for (Location location : vrs.getLocationList()) {
             addCoordinates(location.getLatitude(), location.getLongitude());
         }
 
-        this.width = width - 2 * MARGIN;
-        this.height = height - 2 * MARGIN;
-        latitudeLength = maximumLatitude - minimumLatitude;
-        longitudeLength = maximumLongitude - minimumLongitude;
+        this.width = width - 2 * margin;
+        this.height = height - 2 * margin;
+        this.margin= margin;
+        latitudeLength = maxLatitude - minLatitude;
+        longitudeLength = maxLongitude - minLongitude;
     }
 
     public void addCoordinates(double latitude, double longitude) {
-        if (latitude < minimumLatitude) {
-            minimumLatitude = latitude;
+        if (latitude < minLatitude) {
+            minLatitude = latitude;
         }
-        if (latitude > maximumLatitude) {
-            maximumLatitude = latitude;
+        if (latitude > maxLatitude) {
+            maxLatitude = latitude;
         }
-        if (longitude < minimumLongitude) {
-            minimumLongitude = longitude;
+        if (longitude < minLongitude) {
+            minLongitude = longitude;
         }
-        if (longitude > maximumLongitude) {
-            maximumLongitude = longitude;
+        if (longitude > maxLongitude) {
+            maxLongitude = longitude;
         }
     }
 
     public int translateLongitudeToX(double longitude) {
-        return (int) Math.floor(((longitude - minimumLongitude) * width / longitudeLength) + MARGIN);
+        return (int) Math.floor(((longitude - minLongitude) * width / longitudeLength) + margin);
     }
 
     public int translateLatitudeToY(double latitude) {
-        return (int) Math.floor(((maximumLatitude - latitude) * height / latitudeLength) + MARGIN);
+        return (int) Math.floor(((maxLatitude - latitude) * height / latitudeLength) + margin);
     }
 }

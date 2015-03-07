@@ -26,7 +26,7 @@ public class VrpView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (this.actualSolution != null) {
-            new VrpPainter().paint(this.actualSolution, canvas, context.getResources());
+            new VrpPainter(context.getResources(), canvas).paint(this.actualSolution);
         }
     }
 }
