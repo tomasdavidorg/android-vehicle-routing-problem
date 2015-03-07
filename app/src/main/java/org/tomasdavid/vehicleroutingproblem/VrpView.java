@@ -9,13 +9,13 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 
 public class VrpView extends View {
 
-    private VehicleRoutingSolution actualSolution;
+    private VrpPainter vp;
 
-    private Context context;
+    private VehicleRoutingSolution actualSolution;
 
     public VrpView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
+        vp = new VrpPainter(context.getResources());
     }
 
     public void setActualSolution(VehicleRoutingSolution actualSolution) {
@@ -26,7 +26,7 @@ public class VrpView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (this.actualSolution != null) {
-            new VrpPainter(context.getResources(), canvas).paint(this.actualSolution);
+            vp.paint(canvas, this.actualSolution);
         }
     }
 }

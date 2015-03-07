@@ -14,6 +14,7 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.util.Log;
 
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
@@ -33,11 +34,6 @@ public class VrpPainter {
     private Resources res;
 
     /**
-     * Canvas for painting.
-     */
-    private Canvas c;
-
-    /**
      * Customer, depot, line, text and time-window paint.
      */
     private Paint cp, dp, lp, tp, wp;
@@ -45,11 +41,9 @@ public class VrpPainter {
     /**
      * Constructor for vehicle routing problem painter.
      * @param res Application resources.
-     * @param c Canvas for painting.
      */
-    public VrpPainter(Resources res, Canvas c) {
+    public VrpPainter(Resources res) {
         this.res = res;
-        this.c = c;
 
         cp = new Paint();
         cp.setColor(res.getColor(R.color.grey));
@@ -76,7 +70,7 @@ public class VrpPainter {
         wp.setAntiAlias(true);
     }
 
-    public void paint(VehicleRoutingSolution vrs) {
+    public void paint(Canvas c, VehicleRoutingSolution vrs) {
         int mtwt = determineMaximumTimeWindowTime(vrs);
         float width = c.getWidth();
         float height = c.getHeight();
@@ -197,6 +191,7 @@ public class VrpPainter {
                 tp.setColor(res.getColor(R.color.black));
             }
 
+            Log.i("",res.obtainTypedArray(R.array.vehicle_colors).length() + "" + colorIndex);
             colorIndex = (colorIndex + 1) % res.obtainTypedArray(R.array.vehicle_colors).length();
         }
 //
