@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    
+    <Button
+        android:id="@+id/open_file_button"
+        android:layout_width="128dp"
+        android:layout_height="48dp"
+        android:text="Open file"
+        android:onClick="onOpenFileButtonClick" />
 
     <org.tomasdavid.vehicleroutingproblem.VrpView
         android:id="@+id/vrp_view"
