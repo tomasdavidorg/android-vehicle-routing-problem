@@ -12,9 +12,4 @@
         android:text="Open file"
         android:onClick="onOpenFileButtonClick" />
 
-    <org.tomasdavid.vehicleroutingproblem.VrpView
-        android:id="@+id/vrp_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
 </RelativeLayout>

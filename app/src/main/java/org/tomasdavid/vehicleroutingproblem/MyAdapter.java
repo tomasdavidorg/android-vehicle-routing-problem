@@ -1,14 +1,16 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private String[] mDataSet;
+    private static String[] mDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
@@ -18,8 +20,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    // todo
+                    Intent i = new Intent(v.getContext(), VrpActivity.class);
+                    int a = getLayoutPosition();
+                    i.putExtra("fileName", mDataSet[a]);
+                    v.getContext().startActivity(i);
                 }
             });
             textView = (TextView) v.findViewById(R.id.file_item);
