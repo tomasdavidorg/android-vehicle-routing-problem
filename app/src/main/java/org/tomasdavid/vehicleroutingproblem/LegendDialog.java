@@ -5,13 +5,13 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Html;
+import android.view.LayoutInflater;
 
 /**
-* Dialog for providing basic information about the application.
-* @author Tomas David
-*/
-public class AboutAppDialog extends DialogFragment implements DialogInterface.OnClickListener {
+ * Dialog contains legend to vehicle routing problem.
+ * @author Tomas David
+ */
+public class LegendDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     /**
      * OK button text.
@@ -21,22 +21,16 @@ public class AboutAppDialog extends DialogFragment implements DialogInterface.On
     /**
      * Title of dialog.
      */
-    private static final String TITLE = "About application";
-
-    /**
-     * Body of dialog.
-     */
-    private static final String MESSAGE = "<b>Author:</b> Tomas David<br>" +
-            "<b>Year:</b> 2015" +
-            "<p>Application demonstrate OptaPlanner functionality on the Android platform. " +
-            "Demonstration is exemplified by Vehicle routing problem example.</p>";
+    private static final String TITLE = "Legend";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setTitle(TITLE)
-               .setMessage(Html.fromHtml(MESSAGE))
+               .setView(inflater.inflate(R.layout.dialog_legend, null))
                .setPositiveButton(OK, this);
+
         return builder.create();
     }
 

@@ -1,13 +1,11 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
@@ -53,7 +51,10 @@ public class VrpActivity extends ActionBarActivity {
             return true;
         } else if (id == R.id.action_about) {
             AboutAppDialog aad = new AboutAppDialog();
-            aad.show(getSupportFragmentManager(), "NoticeDialogFragment");
+            aad.show(getFragmentManager(), "");
+        } else if (id == R.id.action_legend) {
+            LegendDialog aad = new LegendDialog();
+            aad.show(getFragmentManager(), "");
         }
 
         return super.onOptionsItemSelected(item);

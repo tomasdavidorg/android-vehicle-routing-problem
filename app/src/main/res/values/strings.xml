@@ -11,5 +11,13 @@
     <string name="action_run">Run</string>
     <string name="action_about">About application</string>
     <string name="action_legend">Legend</string>
+    
+    <!-- Legend -->
+    <string name="legend_vehicle">Vehicle</string>
+    <string name="legend_depot">Depot</string>
+    <string name="legend_customer">Customer with demand</string>
+    <string name="legend_road">Road to customer</string>
+    <string name="legend_depot_road">Road to depot</string>
+    <string name="legend_demand">10</string>
 
 </resources>
