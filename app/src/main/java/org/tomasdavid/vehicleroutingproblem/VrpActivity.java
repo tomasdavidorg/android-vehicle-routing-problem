@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
@@ -49,6 +50,9 @@ public class VrpActivity extends ActionBarActivity {
             }
             new SolverTask(this).execute(vrs);
             return true;
+        } else if (id == R.id.action_about) {
+            AboutAppDialog aad = new AboutAppDialog(this);
+            aad.show();
         }
 
         return super.onOptionsItemSelected(item);

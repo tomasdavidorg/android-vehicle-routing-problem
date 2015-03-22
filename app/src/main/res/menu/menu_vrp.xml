@@ -4,13 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.tomasdavid.vehicleroutingproblem.VrpActivity" >
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
-
     <item android:id="@+id/action_run"
-        android:icon="@drawable/ic_play_arrow_white_24dp"
         android:title="@string/action_run"
-        android:orderInCategory="10"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
         app:showAsAction="always" />
+
+    <item android:id="@+id/action_legend"
+        android:title="@string/action_legend"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_about"
+        android:title="@string/action_about"
+        android:orderInCategory="3"
+        app:showAsAction="never" />
 
 </menu>
