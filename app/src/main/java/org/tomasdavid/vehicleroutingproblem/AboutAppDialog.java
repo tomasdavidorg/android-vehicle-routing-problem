@@ -1,16 +1,23 @@
 package org.tomasdavid.vehicleroutingproblem;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Html;
 
 
 /**
- * Dialog for provide basic information about the application.
- * @author Tomas David
- */
-public class AboutAppDialog extends AlertDialog implements DialogInterface.OnClickListener {
+* Dialog for providing basic information about the application.
+* @author Tomas David
+*/
+public class AboutAppDialog extends DialogFragment implements DialogInterface.OnClickListener {
+
+    /**
+     * OK button text.
+     */
+    private static final String OK = "OK";
 
     /**
      * Title of dialog.
@@ -25,11 +32,13 @@ public class AboutAppDialog extends AlertDialog implements DialogInterface.OnCli
             "<p>Application demonstrate OptaPlanner functionality on the Android platform. " +
             "Demonstration is exemplified by Vehicle routing problem example.</p>";
 
-    protected AboutAppDialog(Context context) {
-        super(context);
-        setTitle(TITLE);
-        setMessage(Html.fromHtml(MESSAGE));
-        this.setButton(DialogInterface.BUTTON_POSITIVE, "OK", this);
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(TITLE)
+               .setMessage(Html.fromHtml(MESSAGE))
+               .setPositiveButton(OK, this);
+        return builder.create();
     }
 
     @Override

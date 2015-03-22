@@ -1,5 +1,6 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
@@ -51,8 +52,8 @@ public class VrpActivity extends ActionBarActivity {
             new SolverTask(this).execute(vrs);
             return true;
         } else if (id == R.id.action_about) {
-            AboutAppDialog aad = new AboutAppDialog(this);
-            aad.show();
+            AboutAppDialog aad = new AboutAppDialog();
+            aad.show(getSupportFragmentManager(), "NoticeDialogFragment");
         }
 
         return super.onOptionsItemSelected(item);
