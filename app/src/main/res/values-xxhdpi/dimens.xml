@@ -4,4 +4,5 @@
     <dimen name="customer_radius">18dp</dimen>
     <dimen name="time_window_pointer_start">15dp</dimen>
     <dimen name="time_window_pointer_end">21dp</dimen>
+    <dimen name="dash_length">18dp</dimen>
 </resources>

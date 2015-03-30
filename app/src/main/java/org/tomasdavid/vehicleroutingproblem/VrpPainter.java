@@ -126,7 +126,8 @@ public class VrpPainter {
 
                     if (customer.getNextCustomer() == null) {
                         Location vehicleLocation = vehicle.getLocation();
-                        rl.setPathEffect(new DashPathEffect(new float[] {25.0f, 25.0f}, 0.0f));
+                        float dashLength = res.getDimension(R.dimen.dash_length);
+                        rl.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength}, 0.0f));
                         drawRoute(c, llt, location.getLongitude(), location.getLatitude(),
                                 vehicleLocation.getLongitude(), vehicleLocation.getLatitude());
                         rl.setPathEffect(null);
@@ -187,6 +188,7 @@ public class VrpPainter {
 
             // draw customer time window
             if (customer instanceof TimeWindowedCustomer) {
+                // draw time window arc
                 TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
                 int startAngle = 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime());
                 int endAngle = calculateTimeWindowDegree(mtwt, twc.getReadyTime())
@@ -194,6 +196,7 @@ public class VrpPainter {
                 c.drawArc(oval, startAngle, endAngle, true, ww);
                 c.drawArc(oval, startAngle, endAngle, false, wa);
 
+                // draw time window pointer
                 if (twc.getArrivalTime() != null) {
                     if (twc.isArrivalAfterDueTime()) {
                         wp.setColor(res.getColor(R.color.dark_red));
