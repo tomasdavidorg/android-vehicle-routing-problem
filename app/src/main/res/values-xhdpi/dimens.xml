@@ -1,4 +1,5 @@
 <resources>
     <dimen name="margin_width">96px</dimen>
     <dimen name="margin_height">64px</dimen>
+    <dimen name="customer_radius">12dp</dimen>
 </resources>

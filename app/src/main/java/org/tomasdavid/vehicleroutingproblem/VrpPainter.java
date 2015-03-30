@@ -14,7 +14,6 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.util.Log;
 
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
@@ -34,7 +33,7 @@ public class VrpPainter {
     /**
      * Customer, depot, line, text and time-window paint.
      */
-    private Paint cp, dp, lp, tp, wp;
+    private Paint cc, ci, ct, lp, wp;
 
     /**
      * Constructor for vehicle routing problem painter.
@@ -43,13 +42,23 @@ public class VrpPainter {
     public VrpPainter(Resources res) {
         this.res = res;
 
-        cp = new Paint();
-        cp.setColor(res.getColor(R.color.grey));
-        cp.setAntiAlias(true);
+        // customer inside
+        ci = new Paint();
+        ci.setStyle(Style.FILL);
+        ci.setColor(res.getColor(R.color.transparent_white));
+        ci.setAntiAlias(true);
 
-        dp = new Paint();
-        dp.setColor(res.getColor(R.color.blue_grey));
-        dp.setAntiAlias(true);
+        // customer circle
+        cc = new Paint();
+        cc.setStyle(Style.STROKE);
+        cc.setColor(res.getColor(R.color.black));
+        cc.setAntiAlias(true);
+
+        // customer text
+        ct = new Paint();
+        ct.setColor(res.getColor(R.color.black));
+        ct.setTextSize(res.getDimension(R.dimen.customer_radius));
+        ct.setAntiAlias(true);
 
         lp = new Paint();
         lp.setStyle(Style.STROKE);
@@ -58,10 +67,7 @@ public class VrpPainter {
         lp.setStrokeCap(Cap.ROUND);
         lp.setStrokeJoin(Join.ROUND);
 
-        tp = new Paint();
-        tp.setColor(res.getColor(R.color.black));
-        tp.setTextSize(res.getDimension(R.dimen.text_size));
-        tp.setAntiAlias(true);
+
 
         wp = new Paint();
         wp.setColor(res.getColor(R.color.light_grey));
@@ -114,7 +120,7 @@ public class VrpPainter {
 
             if (vic != null) {
                 if (load > vehicle.getCapacity()) {
-                    tp.setColor(res.getColor(R.color.dark_red));
+                    ct.setColor(res.getColor(R.color.dark_red));
                 }
                 Location prevLocation = vic.getPreviousStandstill().getLocation();
                 Location location = vic.getLocation();
@@ -131,8 +137,8 @@ public class VrpPainter {
 
                 c.drawBitmap(vehBitmap, x + 1, (ascending ? y - vih - 1 : y + 1), null);
                 c.drawText(load + " / " + vehicle.getCapacity(), x + 1,
-                        (ascending ? y - 1 : y + vih + 1), tp);
-                tp.setColor(res.getColor(R.color.black));
+                        (ascending ? y - 1 : y + vih + 1), ct);
+                ct.setColor(res.getColor(R.color.black));
             }
 
             // change color index
@@ -155,12 +161,19 @@ public class VrpPainter {
             Location location = customer.getLocation();
             float x = llt.translateLongitudeToX(location.getLongitude());
             float y = llt.translateLatitudeToY(location.getLatitude());
-            c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, cp);
+            float radius = res.getDimension(R.dimen.customer_radius);
 
+            // draw customer circle
+            RectF oval = new RectF(x - radius, y - radius, x + radius, y + radius);
+            c.drawOval(oval, ci);
+            c.drawOval(oval, cc);
             String demandString = Integer.toString(customer.getDemand());
-            c.drawText(demandString, x - (tp.measureText(demandString) / 2),
-                    y - res.getDimension(R.dimen.text_size) / 2, tp);
+            c.drawText(demandString,
+                    x - ct.measureText(demandString) / 2,
+                    y + res.getDimension(R.dimen.customer_radius) / 2,
+                    ct);
 
+            // draw customer time window
             if (customer instanceof TimeWindowedCustomer) {
                 TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
                 float circleX = (int) (x - (twd / 2));

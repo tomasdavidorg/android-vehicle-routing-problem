@@ -16,4 +16,6 @@
     <color name="green">#4CAF50</color>
     <color name="blue">#2196F3</color>
     <color name="purple">#9C27B0</color>
+
+    <color name="transparent_white">#AAFFFFFF</color>
 </resources>
