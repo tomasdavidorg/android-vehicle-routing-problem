@@ -1,6 +1,3 @@
-/*
- * This file was modified from original file VehicleRoutingSolutionPainter.java from OptaPlanner project.
- */
 package org.tomasdavid.vehicleroutingproblem;
 
 import android.content.res.Resources;
@@ -23,6 +20,13 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
 
+/**
+ * Class for painting vehicle routing solution to screen.
+ * This file was modified from original file VehicleRoutingSolutionPainter.java from OptaPlanner project.
+ *
+ * @author Tomas David
+ * @author Geoffrey De Smet
+ */
 public class VrpPainter {
 
     /**
@@ -31,7 +35,7 @@ public class VrpPainter {
     private Resources res;
 
     /**
-     * Customer, depot, line, text and time-window paint.
+     * Customer, route and time window paints.
      */
     private Paint ci, cc, ct, rl, wp, wa, ww;
 
@@ -91,18 +95,24 @@ public class VrpPainter {
         ww.setAntiAlias(true);
     }
 
+    /**
+     * Paints vehicle routing solution to canvas.
+     * @param c Canvas to paint.
+     * @param vrs Vehicle routing solution.
+     */
     public void paint(Canvas c, VehicleRoutingSolution vrs) {
         int mtwt = determineMaximumTimeWindowTime(vrs);
         float width = c.getWidth();
         float height = c.getHeight();
 
-        VrpTranslator llt = new VrpTranslator(vrs, width, height, res);
+        VrpTranslator vrpt = new VrpTranslator(vrs, width, height, res);
 
         int colorIndex = 0;
 
+        // draw routes
         for (Vehicle vehicle : vrs.getVehicleList()) {
             rl.setColor((res.obtainTypedArray(R.array.vehicle_colors).getColor(colorIndex, 0)));
-            Customer vic = null;
+            Customer vehicleInfoCustomer = null;
             int longestNonDepotDistance = -1;
             int load = 0;
             for (Customer customer : vrs.getCustomerList()) {
@@ -110,7 +120,7 @@ public class VrpPainter {
                     load += customer.getDemand();
                     Location previousLocation = customer.getPreviousStandstill().getLocation();
                     Location location = customer.getLocation();
-                    drawRoute(c, llt, previousLocation.getLongitude(),
+                    drawRoute(c, vrpt, previousLocation.getLongitude(),
                             previousLocation.getLatitude(), location.getLongitude(),
                             location.getLatitude());
                     int distance = customer.getDistanceFromPreviousStandstill();
@@ -118,43 +128,46 @@ public class VrpPainter {
                     if (customer.getPreviousStandstill() instanceof Customer) {
                         if (longestNonDepotDistance < distance) {
                             longestNonDepotDistance = distance;
-                            vic = customer;
+                            vehicleInfoCustomer = customer;
                         }
-                    } else if (vic == null) {
-                        vic = customer;
+                    } else if (vehicleInfoCustomer == null) {
+                        vehicleInfoCustomer = customer;
                     }
 
+                    // draw route back to depot
                     if (customer.getNextCustomer() == null) {
                         Location vehicleLocation = vehicle.getLocation();
                         float dashLength = res.getDimension(R.dimen.dash_length);
                         rl.setPathEffect(new DashPathEffect(new float[] {dashLength, dashLength}, 0.0f));
-                        drawRoute(c, llt, location.getLongitude(), location.getLatitude(),
+                        drawRoute(c, vrpt, location.getLongitude(), location.getLatitude(),
                                 vehicleLocation.getLongitude(), vehicleLocation.getLatitude());
                         rl.setPathEffect(null);
                     }
                 }
             }
 
-            if (vic != null) {
+            if (vehicleInfoCustomer != null) {
                 if (load > vehicle.getCapacity()) {
                     ct.setColor(res.getColor(R.color.dark_red));
                 }
-                Location prevLocation = vic.getPreviousStandstill().getLocation();
-                Location location = vic.getLocation();
+
+                Location prevLocation = vehicleInfoCustomer.getPreviousStandstill().getLocation();
+                Location location = vehicleInfoCustomer.getLocation();
                 double longitude = (prevLocation.getLongitude() + location.getLongitude()) / 2.0;
-                float x = llt.translateLongitudeToX(longitude);
+                float x = vrpt.translateLongitudeToX(longitude);
                 double latitude = (prevLocation.getLatitude() + location.getLatitude()) / 2.0;
-                float y = llt.translateLatitudeToY(latitude);
+                float y = vrpt.translateLatitudeToY(latitude);
                 boolean ascending = (prevLocation.getLongitude() < location.getLongitude())
                         ^ (prevLocation.getLatitude() < location.getLatitude());
 
                 int resId = res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0);
                 Bitmap vehBitmap = BitmapFactory.decodeResource(res, resId);
-                int vih = (int) (vehBitmap.getHeight() + 2 + res.getDimension(R.dimen.text_size));
+                int vehicleInfoHeight = (int) (vehBitmap.getHeight() + res.getDimension(R.dimen.customer_radius));
 
-                c.drawBitmap(vehBitmap, x + 1, (ascending ? y - vih - 1 : y + 1), null);
-                c.drawText(load + " / " + vehicle.getCapacity(), x + 1,
-                        (ascending ? y - 1 : y + vih + 1), ct);
+                // draw vehicle and its capacity
+                c.drawBitmap(vehBitmap, x, (ascending ? y - vehicleInfoHeight : y), null);
+                c.drawText(load + " / " + vehicle.getCapacity(), x,
+                        (ascending ? y : y + vehicleInfoHeight), ct);
                 ct.setColor(res.getColor(R.color.black));
             }
 
@@ -164,8 +177,8 @@ public class VrpPainter {
 
         // draw depots
         for (Depot depot : vrs.getDepotList()) {
-            float x = llt.translateLongitudeToX(depot.getLocation().getLongitude());
-            float y = llt.translateLatitudeToY(depot.getLocation().getLatitude());
+            float x = vrpt.translateLongitudeToX(depot.getLocation().getLongitude());
+            float y = vrpt.translateLatitudeToY(depot.getLocation().getLatitude());
             Bitmap depotBitmap = BitmapFactory.decodeResource(res, R.drawable.depot);
             c.drawBitmap(depotBitmap,
                     x - depotBitmap.getWidth() / 2,
@@ -176,8 +189,8 @@ public class VrpPainter {
         // draw customers
         for (Customer customer : vrs.getCustomerList()) {
             Location location = customer.getLocation();
-            float x = llt.translateLongitudeToX(location.getLongitude());
-            float y = llt.translateLatitudeToY(location.getLatitude());
+            float x = vrpt.translateLongitudeToX(location.getLongitude());
+            float y = vrpt.translateLatitudeToY(location.getLatitude());
             float radius = res.getDimension(R.dimen.customer_radius);
 
             // draw customer circle
