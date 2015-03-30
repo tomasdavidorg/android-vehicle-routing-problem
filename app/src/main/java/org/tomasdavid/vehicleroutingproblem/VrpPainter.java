@@ -33,7 +33,7 @@ public class VrpPainter {
     /**
      * Customer, depot, line, text and time-window paint.
      */
-    private Paint cc, ci, ct, lp, wp;
+    private Paint ci, cc, ct, rl, wp, wa, ww;
 
     /**
      * Constructor for vehicle routing problem painter.
@@ -56,36 +56,52 @@ public class VrpPainter {
 
         // customer text
         ct = new Paint();
+        ct.setStyle(Style.FILL_AND_STROKE);
         ct.setColor(res.getColor(R.color.black));
-        ct.setTextSize(res.getDimension(R.dimen.customer_radius));
         ct.setAntiAlias(true);
+        ct.setTextSize(res.getDimension(R.dimen.customer_radius));
 
-        lp = new Paint();
-        lp.setStyle(Style.STROKE);
-        lp.setAntiAlias(true);
-        lp.setStrokeWidth(3.0f);
-        lp.setStrokeCap(Cap.ROUND);
-        lp.setStrokeJoin(Join.ROUND);
+        // route line
+        rl = new Paint();
+        rl.setStyle(Style.STROKE);
+        rl.setAntiAlias(true);
+        rl.setStrokeCap(Cap.ROUND);
+        rl.setStrokeJoin(Join.ROUND);
+        rl.setStrokeWidth(res.getDimension(R.dimen.stroke_normal));
 
-
-
+        // time window pointer
         wp = new Paint();
-        wp.setColor(res.getColor(R.color.light_grey));
+        wp.setStyle(Style.STROKE);
         wp.setAntiAlias(true);
+        wp.setStrokeCap(Cap.ROUND);
+        wp.setStrokeJoin(Join.ROUND);
+        wp.setStrokeWidth(res.getDimension(R.dimen.stroke_thick));
+
+        // time window arc
+        wa = new Paint();
+        wa.setStyle(Style.STROKE);
+        wa.setColor(res.getColor(R.color.black));
+        wa.setAntiAlias(true);
+        wa.setStrokeWidth(res.getDimension(R.dimen.stroke_thick));
+
+        // time window arc wedge
+        ww = new Paint();
+        ww.setStyle(Style.FILL);
+        ww.setColor(res.getColor(R.color.transparent_grey));
+        ww.setAntiAlias(true);
     }
 
     public void paint(Canvas c, VehicleRoutingSolution vrs) {
         int mtwt = determineMaximumTimeWindowTime(vrs);
         float width = c.getWidth();
         float height = c.getHeight();
-        float lpr = res.getDimension(R.dimen.location_point_radius);
-        float twd = res.getDimension(R.dimen.time_window_diameter);
+
         VrpTranslator llt = new VrpTranslator(vrs, width, height, res);
 
         int colorIndex = 0;
 
         for (Vehicle vehicle : vrs.getVehicleList()) {
-            lp.setColor((res.obtainTypedArray(R.array.vehicle_colors).getColor(colorIndex, 0)));
+            rl.setColor((res.obtainTypedArray(R.array.vehicle_colors).getColor(colorIndex, 0)));
             Customer vic = null;
             int longestNonDepotDistance = -1;
             int load = 0;
@@ -110,10 +126,10 @@ public class VrpPainter {
 
                     if (customer.getNextCustomer() == null) {
                         Location vehicleLocation = vehicle.getLocation();
-                        lp.setPathEffect(new DashPathEffect(new float[] {25.0f, 25.0f}, 0.0f));
+                        rl.setPathEffect(new DashPathEffect(new float[] {25.0f, 25.0f}, 0.0f));
                         drawRoute(c, llt, location.getLongitude(), location.getLatitude(),
                                 vehicleLocation.getLongitude(), vehicleLocation.getLatitude());
-                        lp.setPathEffect(null);
+                        rl.setPathEffect(null);
                     }
                 }
             }
@@ -168,43 +184,42 @@ public class VrpPainter {
             c.drawOval(oval, ci);
             c.drawOval(oval, cc);
             String demandString = Integer.toString(customer.getDemand());
-            c.drawText(demandString,
-                    x - ct.measureText(demandString) / 2,
-                    y + res.getDimension(R.dimen.customer_radius) / 2,
-                    ct);
 
             // draw customer time window
             if (customer instanceof TimeWindowedCustomer) {
                 TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
-                float circleX = (int) (x - (twd / 2));
-                float circleY = y + 5;
-                wp.setStyle(Style.STROKE);
-                RectF tw = new RectF(circleX + lpr, circleY + lpr, circleX + lpr + twd,
-                        circleY + lpr + twd);
-                c.drawOval(tw, wp);
-                wp.setStyle(Style.FILL);
-                c.drawArc(tw, 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime()),
-                        calculateTimeWindowDegree(mtwt, twc.getReadyTime())
-                                - calculateTimeWindowDegree(mtwt, twc.getDueTime()), true, wp);
+                int startAngle = 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime());
+                int endAngle = calculateTimeWindowDegree(mtwt, twc.getReadyTime())
+                        - calculateTimeWindowDegree(mtwt, twc.getDueTime());
+                c.drawArc(oval, startAngle, endAngle, true, ww);
+                c.drawArc(oval, startAngle, endAngle, false, wa);
 
                 if (twc.getArrivalTime() != null) {
                     if (twc.isArrivalAfterDueTime()) {
-                        lp.setColor(res.getColor(R.color.dark_red));
+                        wp.setColor(res.getColor(R.color.dark_red));
                     } else if (twc.isArrivalBeforeReadyTime()) {
-                        lp.setColor(res.getColor(R.color.dark_orange));
+                        wp.setColor(res.getColor(R.color.dark_orange));
                     } else {
-                        lp.setColor(res.getColor(R.color.dark_grey));
+                        wp.setColor(res.getColor(R.color.dark_green));
                     }
-                    lp.setStrokeWidth(res.getDimension(R.dimen.stroke_thick));
-                    int circleCenterY = (int) (y + 5 + twd / 2);
+
                     int angle = calculateTimeWindowDegree(mtwt, twc.getArrivalTime());
-                    c.drawLine(x + lpr, circleCenterY + lpr,
-                            x + lpr + (int) (Math.sin(Math.toRadians(angle)) * (twd / 2 + 3)),
-                            circleCenterY + lpr - (int) (Math.cos(Math.toRadians(angle))
-                                    * (twd / 2 + 3)), lp);
-                    lp.setStrokeWidth(res.getDimension(R.dimen.stroke_normal));
+                    float xx = (float) Math.sin(Math.toRadians(angle));
+                    float yy = (float) Math.cos(Math.toRadians(angle));
+
+                    c.drawLine(x + xx * res.getDimension(R.dimen.time_window_pointer_start),
+                            y - yy * res.getDimension(R.dimen.time_window_pointer_start),
+                            x + xx * res.getDimension(R.dimen.time_window_pointer_end),
+                            y - yy * res.getDimension(R.dimen.time_window_pointer_end),
+                            wp);
                 }
             }
+
+            // draw customer text
+            c.drawText(demandString,
+                    x - ct.measureText(demandString) / 2,
+                    y + res.getDimension(R.dimen.customer_radius) / 2,
+                    ct);
         }
     }
 
@@ -262,6 +277,6 @@ public class VrpPainter {
         Path line = new Path();
         line.moveTo(x1, y1);
         line.lineTo(x2, y2);
-        canvas.drawPath(line, lp);
+        canvas.drawPath(line, rl);
     }
 }

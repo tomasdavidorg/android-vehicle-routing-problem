@@ -2,4 +2,6 @@
     <dimen name="margin_width">72px</dimen>
     <dimen name="margin_height">48px</dimen>
     <dimen name="customer_radius">9dp</dimen>
+    <dimen name="time_window_pointer_start">7dp</dimen>
+    <dimen name="time_window_pointer_end">11dp</dimen>
 </resources>
