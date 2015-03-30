@@ -20,7 +20,6 @@ import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.AirLocation;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
@@ -144,7 +143,7 @@ public class VrpPainter {
                     Location location = customer.getLocation();
                     drawRoute(c, llt, previousLocation.getLongitude(),
                             previousLocation.getLatitude(), location.getLongitude(),
-                            location.getLatitude(), location instanceof AirLocation);
+                            location.getLatitude());
                     int distance = customer.getDistanceFromPreviousStandstill();
 
                     if (customer.getPreviousStandstill() instanceof Customer) {
@@ -160,8 +159,7 @@ public class VrpPainter {
                         Location vehicleLocation = vehicle.getLocation();
                         lp.setPathEffect(new DashPathEffect(new float[] {25.0f, 25.0f}, 0.0f));
                         drawRoute(c, llt, location.getLongitude(), location.getLatitude(),
-                                vehicleLocation.getLongitude(), vehicleLocation.getLatitude(),
-                                location instanceof AirLocation);
+                                vehicleLocation.getLongitude(), vehicleLocation.getLatitude());
                         lp.setPathEffect(null);
                     }
                 }
@@ -193,43 +191,13 @@ public class VrpPainter {
             Log.i("",res.obtainTypedArray(R.array.vehicle_colors).length() + "" + colorIndex);
             colorIndex = (colorIndex + 1) % res.obtainTypedArray(R.array.vehicle_colors).length();
         }
-//
-//        // Legend
-//        g.setColor(TangoColorFactory.ALUMINIUM_3);
-//        g.fillRect(5, (int) height - 12 - TEXT_SIZE - (TEXT_SIZE / 2), 5, 5);
-//        g.drawString("Depot", 15, (int) height - 10 - TEXT_SIZE);
-//        String vehiclesSizeString = solution.getVehicleList().size() + " vehicles";
-//        g.drawString(vehiclesSizeString,
-//                ((int) width - g.getFontMetrics().stringWidth(vehiclesSizeString)) / 2, (int) height - 10 - TEXT_SIZE);
-//        g.setColor(TangoColorFactory.ALUMINIUM_4);
-//        g.fillRect(6, (int) height - 6 - (TEXT_SIZE / 2), 3, 3);
-//        g.drawString((solution instanceof TimeWindowedVehicleRoutingSolution)
-//                ? "Customer: demand, time window and arrival time" : "Customer: demand", 15, (int) height - 5);
-//        String customersSizeString = solution.getCustomerList().size() + " customers";
-//        g.drawString(customersSizeString,
-//                ((int) width - g.getFontMetrics().stringWidth(customersSizeString)) / 2, (int) height - 5);
-//        if (solution.getDistanceType() == DistanceType.AIR_DISTANCE) {
-//            String clickString = "Click anywhere in the map to add a customer.";
-//            g.drawString(clickString, (int) width - 5 - g.getFontMetrics().stringWidth(clickString), (int) height - 5);
-//        }
-//        // Show soft score
-//        g.setColor(TangoColorFactory.ORANGE_3);
-//        HardSoftScore score = solution.getScore();
-//        if (score != null) {
-//            String distanceString;
-//            if (!score.isFeasible()) {
-//                distanceString = "Not feasible";
-//            } else {
-//                double distance = ((double) - score.getSoftScore()) / 1000.0;
-//                distanceString = NUMBER_FORMAT.format(distance) + " " + solution.getDistanceUnitOfMeasurement();
-//            }
-//            g.setFont(g.getFont().deriveFont(Font.BOLD, (float) TEXT_SIZE * 2));
-//            g.drawString(distanceString,
-//                    (int) width - g.getFontMetrics().stringWidth(distanceString) - 10, (int) height - 10 - TEXT_SIZE);
-//        }
-
     }
 
+    /**
+     * Determines maximum time window time.
+     * @param solution Vehicle routing solution.
+     * @return Maximum time window time.
+     */
     private int determineMaximumTimeWindowTime(VehicleRoutingSolution solution) {
         int maximumTimeWindowTime = 0;
         for (Depot depot : solution.getDepotList()) {
@@ -251,30 +219,34 @@ public class VrpPainter {
         return maximumTimeWindowTime;
     }
 
+    /**
+     * Calculates time window degree.
+     * @param maximumTimeWindowTime Maximum time window time.
+     * @param timeWindowTime Actual time window time.
+     * @return Time window degree.
+     */
     private int calculateTimeWindowDegree(int maximumTimeWindowTime, int timeWindowTime) {
         return (360 * timeWindowTime / maximumTimeWindowTime);
     }
 
-    public void drawRoute(Canvas c, VrpTranslator translator, double lon1, double lat1,
-                          double lon2, double lat2, boolean straight) {
+    /**
+     * Draws vehicle route to canvas.
+     * @param canvas Drawing canvas.
+     * @param translator Longitude/Latitude translator.
+     * @param lon1 Start point longitude.
+     * @param lat1 Start point latitude.
+     * @param lon2 End point longitude.
+     * @param lat2 End point latitude.
+     */
+    public void drawRoute(Canvas canvas, VrpTranslator translator, double lon1, double lat1,
+                          double lon2, double lat2) {
         float x1 = translator.translateLongitudeToX(lon1);
         float y1 = translator.translateLatitudeToY(lat1);
         float x2 = translator.translateLongitudeToX(lon2);
         float y2 = translator.translateLatitudeToY(lat2);
-        if (straight) {
-            Path line = new Path();
-            line.moveTo(x1, y1);
-            line.lineTo(x2, y2);
-            c.drawPath(line, lp);
-            //TODO curve
-//        } else {
-//            double xDistPart = (x2 - x1) / 3.0;
-//            double yDistPart = (y2 - y1) / 3.0;
-//            double ctrlx1 = x1 + xDistPart + yDistPart;
-//            double ctrly1 = y1 - xDistPart + yDistPart;
-//            double ctrlx2 = x2 - xDistPart - yDistPart;
-//            double ctrly2 = y2 + xDistPart - yDistPart;
-//            g.draw(new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2));
-        }
+        Path line = new Path();
+        line.moveTo(x1, y1);
+        line.lineTo(x2, y2);
+        canvas.drawPath(line, lp);
     }
 }
