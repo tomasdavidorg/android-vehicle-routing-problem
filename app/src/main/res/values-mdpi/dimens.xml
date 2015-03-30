@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="margin_width">48px</dimen>
+    <dimen name="margin_height">32px</dimen>
+</resources>

@@ -76,13 +76,12 @@ public class VrpPainter {
         float height = c.getHeight();
         float lpr = res.getDimension(R.dimen.location_point_radius);
         float twd = res.getDimension(R.dimen.time_window_diameter);
-        LatitudeLongitudeTranslator llt = new LatitudeLongitudeTranslator(vrs, width, height,
-                res.getDimension(R.dimen.canvas_margin));
+        VrpTranslator llt = new VrpTranslator(vrs, width, height, res);
 
         for (Customer customer : vrs.getCustomerList()) {
             Location location = customer.getLocation();
-            int x = llt.translateLongitudeToX(location.getLongitude());
-            int y = llt.translateLatitudeToY(location.getLatitude());
+            float x = llt.translateLongitudeToX(location.getLongitude());
+            float y = llt.translateLatitudeToY(location.getLatitude());
             c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, cp);
 
             String demandString = Integer.toString(customer.getDemand());
@@ -91,8 +90,8 @@ public class VrpPainter {
 
             if (customer instanceof TimeWindowedCustomer) {
                 TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
-                int circleX = (int) (x - (twd / 2));
-                int circleY = y + 5;
+                float circleX = (int) (x - (twd / 2));
+                float circleY = y + 5;
                 wp.setStyle(Style.STROKE);
                 RectF tw = new RectF(circleX + lpr, circleY + lpr, circleX + lpr + twd,
                         circleY + lpr + twd);
@@ -123,8 +122,8 @@ public class VrpPainter {
         }
 
         for (Depot depot : vrs.getDepotList()) {
-            int x = llt.translateLongitudeToX(depot.getLocation().getLongitude());
-            int y = llt.translateLatitudeToY(depot.getLocation().getLatitude());
+            float x = llt.translateLongitudeToX(depot.getLocation().getLongitude());
+            float y = llt.translateLatitudeToY(depot.getLocation().getLatitude());
             c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, dp);
             Bitmap depotBitmap = BitmapFactory.decodeResource(res, R.drawable.depot);
             c.drawBitmap(depotBitmap, x - depotBitmap.getWidth() / 2,
@@ -175,9 +174,9 @@ public class VrpPainter {
                 Location prevLocation = vic.getPreviousStandstill().getLocation();
                 Location location = vic.getLocation();
                 double longitude = (prevLocation.getLongitude() + location.getLongitude()) / 2.0;
-                int x = llt.translateLongitudeToX(longitude);
+                float x = llt.translateLongitudeToX(longitude);
                 double latitude = (prevLocation.getLatitude() + location.getLatitude()) / 2.0;
-                int y = llt.translateLatitudeToY(latitude);
+                float y = llt.translateLatitudeToY(latitude);
                 boolean ascending = (prevLocation.getLongitude() < location.getLongitude())
                         ^ (prevLocation.getLatitude() < location.getLatitude());
 
@@ -256,12 +255,12 @@ public class VrpPainter {
         return (360 * timeWindowTime / maximumTimeWindowTime);
     }
 
-    public void drawRoute(Canvas c, LatitudeLongitudeTranslator translator, double lon1, double lat1,
+    public void drawRoute(Canvas c, VrpTranslator translator, double lon1, double lat1,
                           double lon2, double lat2, boolean straight) {
-        int x1 = translator.translateLongitudeToX(lon1);
-        int y1 = translator.translateLatitudeToY(lat1);
-        int x2 = translator.translateLongitudeToX(lon2);
-        int y2 = translator.translateLatitudeToY(lat2);
+        float x1 = translator.translateLongitudeToX(lon1);
+        float y1 = translator.translateLatitudeToY(lat1);
+        float x2 = translator.translateLongitudeToX(lon2);
+        float y2 = translator.translateLatitudeToY(lat2);
         if (straight) {
             Path line = new Path();
             line.moveTo(x1, y1);
