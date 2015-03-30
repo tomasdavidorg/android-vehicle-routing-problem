@@ -24,7 +24,6 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
 
-// todo double buffering
 public class VrpPainter {
 
     /**
@@ -76,58 +75,6 @@ public class VrpPainter {
         float lpr = res.getDimension(R.dimen.location_point_radius);
         float twd = res.getDimension(R.dimen.time_window_diameter);
         VrpTranslator llt = new VrpTranslator(vrs, width, height, res);
-
-        for (Customer customer : vrs.getCustomerList()) {
-            Location location = customer.getLocation();
-            float x = llt.translateLongitudeToX(location.getLongitude());
-            float y = llt.translateLatitudeToY(location.getLatitude());
-            c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, cp);
-
-            String demandString = Integer.toString(customer.getDemand());
-            c.drawText(demandString, x - (tp.measureText(demandString) / 2),
-                    y - res.getDimension(R.dimen.text_size) / 2, tp);
-
-            if (customer instanceof TimeWindowedCustomer) {
-                TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
-                float circleX = (int) (x - (twd / 2));
-                float circleY = y + 5;
-                wp.setStyle(Style.STROKE);
-                RectF tw = new RectF(circleX + lpr, circleY + lpr, circleX + lpr + twd,
-                        circleY + lpr + twd);
-                c.drawOval(tw, wp);
-                wp.setStyle(Style.FILL);
-                c.drawArc(tw, 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime()),
-                        calculateTimeWindowDegree(mtwt, twc.getReadyTime())
-                                - calculateTimeWindowDegree(mtwt, twc.getDueTime()), true, wp);
-
-                if (twc.getArrivalTime() != null) {
-                    if (twc.isArrivalAfterDueTime()) {
-                        lp.setColor(res.getColor(R.color.dark_red));
-                    } else if (twc.isArrivalBeforeReadyTime()) {
-                        lp.setColor(res.getColor(R.color.dark_orange));
-                    } else {
-                        lp.setColor(res.getColor(R.color.dark_grey));
-                    }
-                    lp.setStrokeWidth(res.getDimension(R.dimen.stroke_thick));
-                    int circleCenterY = (int) (y + 5 + twd / 2);
-                    int angle = calculateTimeWindowDegree(mtwt, twc.getArrivalTime());
-                    c.drawLine(x + lpr, circleCenterY + lpr,
-                            x + lpr + (int) (Math.sin(Math.toRadians(angle)) * (twd / 2 + 3)),
-                            circleCenterY + lpr - (int) (Math.cos(Math.toRadians(angle))
-                                    * (twd / 2 + 3)), lp);
-                    lp.setStrokeWidth(res.getDimension(R.dimen.stroke_normal));
-                }
-            }
-        }
-
-        for (Depot depot : vrs.getDepotList()) {
-            float x = llt.translateLongitudeToX(depot.getLocation().getLongitude());
-            float y = llt.translateLatitudeToY(depot.getLocation().getLatitude());
-            c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, dp);
-            Bitmap depotBitmap = BitmapFactory.decodeResource(res, R.drawable.depot);
-            c.drawBitmap(depotBitmap, x - depotBitmap.getWidth() / 2,
-                    y - lpr - depotBitmap.getHeight(), null);
-        }
 
         int colorIndex = 0;
 
@@ -188,7 +135,62 @@ public class VrpPainter {
                 tp.setColor(res.getColor(R.color.black));
             }
 
-            Log.i("",res.obtainTypedArray(R.array.vehicle_colors).length() + "" + colorIndex);
+            // draw depots
+            for (Depot depot : vrs.getDepotList()) {
+                float x = llt.translateLongitudeToX(depot.getLocation().getLongitude());
+                float y = llt.translateLatitudeToY(depot.getLocation().getLatitude());
+                Bitmap depotBitmap = BitmapFactory.decodeResource(res, R.drawable.depot);
+                c.drawBitmap(depotBitmap,
+                        x - depotBitmap.getWidth() / 2,
+                        y - depotBitmap.getHeight() / 2,
+                        null);
+            }
+
+            // draw customers
+            for (Customer customer : vrs.getCustomerList()) {
+                Location location = customer.getLocation();
+                float x = llt.translateLongitudeToX(location.getLongitude());
+                float y = llt.translateLatitudeToY(location.getLatitude());
+                c.drawRect(x - lpr, y - lpr, x + lpr, y + lpr, cp);
+
+                String demandString = Integer.toString(customer.getDemand());
+                c.drawText(demandString, x - (tp.measureText(demandString) / 2),
+                        y - res.getDimension(R.dimen.text_size) / 2, tp);
+
+                if (customer instanceof TimeWindowedCustomer) {
+                    TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
+                    float circleX = (int) (x - (twd / 2));
+                    float circleY = y + 5;
+                    wp.setStyle(Style.STROKE);
+                    RectF tw = new RectF(circleX + lpr, circleY + lpr, circleX + lpr + twd,
+                            circleY + lpr + twd);
+                    c.drawOval(tw, wp);
+                    wp.setStyle(Style.FILL);
+                    c.drawArc(tw, 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime()),
+                            calculateTimeWindowDegree(mtwt, twc.getReadyTime())
+                                    - calculateTimeWindowDegree(mtwt, twc.getDueTime()), true, wp);
+
+                    if (twc.getArrivalTime() != null) {
+                        if (twc.isArrivalAfterDueTime()) {
+                            lp.setColor(res.getColor(R.color.dark_red));
+                        } else if (twc.isArrivalBeforeReadyTime()) {
+                            lp.setColor(res.getColor(R.color.dark_orange));
+                        } else {
+                            lp.setColor(res.getColor(R.color.dark_grey));
+                        }
+                        lp.setStrokeWidth(res.getDimension(R.dimen.stroke_thick));
+                        int circleCenterY = (int) (y + 5 + twd / 2);
+                        int angle = calculateTimeWindowDegree(mtwt, twc.getArrivalTime());
+                        c.drawLine(x + lpr, circleCenterY + lpr,
+                                x + lpr + (int) (Math.sin(Math.toRadians(angle)) * (twd / 2 + 3)),
+                                circleCenterY + lpr - (int) (Math.cos(Math.toRadians(angle))
+                                        * (twd / 2 + 3)), lp);
+                        lp.setStrokeWidth(res.getDimension(R.dimen.stroke_normal));
+                    }
+                }
+            }
+
+            // change color index
             colorIndex = (colorIndex + 1) % res.obtainTypedArray(R.array.vehicle_colors).length();
         }
     }
