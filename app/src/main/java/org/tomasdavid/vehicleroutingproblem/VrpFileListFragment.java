@@ -43,7 +43,7 @@ public class VrpFileListFragment extends Fragment {
             }
         }
 
-        Adapter mAdapter = new MyAdapter(vrpAssets.toArray(new String[vrpAssets.size()]));
+        Adapter mAdapter = new VrpFileListAdapter(vrpAssets.toArray(new String[vrpAssets.size()]));
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
