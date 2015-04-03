@@ -11,6 +11,9 @@
     <string name="action_run">Run</string>
     <string name="action_about">About application</string>
     <string name="action_legend">Legend</string>
+
+    <!-- Buttons -->
+    <string name="button_open_file">Open file</string>
     
     <!-- Legend -->
     <string name="legend_vehicle">Vehicle</string>

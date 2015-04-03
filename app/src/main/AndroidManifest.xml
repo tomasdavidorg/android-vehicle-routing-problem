@@ -17,10 +17,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FileListActivity"
-            android:label="VRP List" >
-        </activity>
-        <activity
             android:name=".VrpActivity"
             android:label="VRP Activity" >
         </activity>

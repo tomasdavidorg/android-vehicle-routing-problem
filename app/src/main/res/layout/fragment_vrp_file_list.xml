@@ -1,12 +1,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.tomasdavid.vehicleroutingproblem.FileListActivity">
+    android:id="@+id/fragment_vrp_file_list">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/file_list"
+        android:id="@+id/vrp_file_list"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
