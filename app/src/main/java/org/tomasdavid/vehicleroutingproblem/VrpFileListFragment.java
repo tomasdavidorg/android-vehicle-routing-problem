@@ -1,7 +1,7 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 public class VrpFileListFragment extends Fragment {
 
@@ -43,7 +42,7 @@ public class VrpFileListFragment extends Fragment {
             }
         }
 
-        Adapter mAdapter = new VrpFileListAdapter(vrpAssets.toArray(new String[vrpAssets.size()]));
+        Adapter mAdapter = new VrpFileListAdapter(vrpAssets.toArray(new String[vrpAssets.size()]), getActivity().getSupportFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

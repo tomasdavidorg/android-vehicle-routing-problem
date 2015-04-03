@@ -1,33 +1,48 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
 
 import java.io.IOException;
 
-
-public class VrpActivity extends ActionBarActivity {
+public class VrpFragment extends Fragment {
 
     private String fileName;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vrp);
-        fileName = getIntent().getExtras().getString("fileName");
+    public VrpFragment() {
+    }
+
+    public VrpFragment(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_vrp, menu);
-        return true;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_vrp, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_vrp, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -37,24 +52,24 @@ public class VrpActivity extends ActionBarActivity {
         if (id == R.id.action_run) {
 
             DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
             Log.i("", "XXX " + metrics.density);
 
             VehicleRoutingSolution vrs = null;
             try {
                 vrs = (VehicleRoutingSolution) VehicleRoutingImporter
-                        .readSolution(fileName, getAssets().open(fileName));
+                        .readSolution(fileName, getActivity().getAssets().open(fileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            new SolverTask(this).execute(vrs);
+            new SolverTask(getActivity()).execute(vrs);
             return true;
         } else if (id == R.id.action_about) {
             AboutAppDialog aad = new AboutAppDialog();
-            aad.show(getFragmentManager(), "");
+            aad.show(getActivity().getSupportFragmentManager(), "");
         } else if (id == R.id.action_legend) {
             LegendDialog aad = new LegendDialog();
-            aad.show(getFragmentManager(), "");
+            aad.show(getActivity().getSupportFragmentManager(), "");
         }
 
         return super.onOptionsItemSelected(item);

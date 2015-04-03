@@ -1,8 +1,8 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +24,7 @@ public class MainFragment extends Fragment {
         @Override
         public void onClick(View v) {
             VrpFileListFragment a = new VrpFileListFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.activity_main, a);
             transaction.addToBackStack(null);
             transaction.commit();

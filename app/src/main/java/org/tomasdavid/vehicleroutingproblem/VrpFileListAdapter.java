@@ -1,6 +1,6 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +12,11 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
 
     private String[] vrpFileNames;
 
-    public VrpFileListAdapter(String[] vrpFileNames) {
+    private FragmentManager fragmentManager;
+
+    public VrpFileListAdapter(String[] vrpFileNames, FragmentManager fragmentManager) {
         this.vrpFileNames = vrpFileNames;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -48,10 +51,8 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
 
             @Override
             public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), VrpActivity.class);
-                    int a = getLayoutPosition();
-                    i.putExtra("fileName", vrpFileNames[a]);
-                    v.getContext().startActivity(i);
+                VrpFragment fragment = new VrpFragment(vrpFileNames[getLayoutPosition()]);
+                fragmentManager.beginTransaction().replace(R.id.activity_main, fragment).addToBackStack(null).commit();
             }
         }
     }
