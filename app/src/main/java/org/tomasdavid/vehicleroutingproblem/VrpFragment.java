@@ -1,7 +1,7 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,22 +21,31 @@ public class VrpFragment extends Fragment {
 
     private String fileName;
 
-    public VrpFragment() {
-    }
-
-    public VrpFragment(String fileName) {
-        this.fileName = fileName;
-    }
+    private VehicleRoutingSolution vrs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
+        fileName = getArguments().getString("FILE");
+        try {
+            vrs = (VehicleRoutingSolution)  VehicleRoutingImporter
+                .readSolution(fileName, getActivity().getAssets().open(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_vrp, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((VrpView)getActivity().findViewById(R.id.vrp_view)).setActualSolution(vrs);
     }
 
     @Override
