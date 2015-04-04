@@ -1,7 +1,5 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,17 +18,25 @@ import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporte
 import java.io.IOException;
 
 public class VrpFragment extends Fragment {
-//TODO asynctask displays solution when solves, refactoring VrpFragment
+
     private static final String TAG = "VrpFragment";
 
     private VehicleRoutingSolution vrs;
 
-    private AsyncTask<VehicleRoutingSolution, Context, String> solverTask;
+    private VrpSolverTask vrpSolverTask;
 
     public VrpFragment() {
         super();
         this.vrs = null;
-        this.solverTask = null;
+        this.vrpSolverTask = null;
+    }
+
+    public void setVrs(VehicleRoutingSolution vrs) {
+        this.vrs = vrs;
+        VrpView view = (VrpView) getActivity().findViewById(R.id.vrp_view);
+        view.setActualSolution(vrs);
+        view.invalidate();
+
     }
 
     @Override
@@ -48,6 +54,8 @@ public class VrpFragment extends Fragment {
             Toast.makeText(getActivity(), "File was not found.", Toast.LENGTH_SHORT).show();
             getActivity().onBackPressed();
         }
+
+        vrpSolverTask = new VrpSolverTask(this);
     }
 
     @Override
@@ -72,7 +80,7 @@ public class VrpFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_run) {
-            solverTask = new SolverTask(getActivity()).execute(vrs);
+            vrpSolverTask.execute(vrs);
             return true;
         } else if (id == R.id.action_about) {
             AboutAppDialog aad = new AboutAppDialog();
