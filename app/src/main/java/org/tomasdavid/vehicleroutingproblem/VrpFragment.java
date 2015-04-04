@@ -1,9 +1,10 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
@@ -18,22 +20,32 @@ import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporte
 import java.io.IOException;
 
 public class VrpFragment extends Fragment {
-
-    private String fileName;
+//TODO asynctask displays solution when solves, refactoring VrpFragment
+    private static final String TAG = "VrpFragment";
 
     private VehicleRoutingSolution vrs;
+
+    private AsyncTask<VehicleRoutingSolution, Context, String> solverTask;
+
+    public VrpFragment() {
+        super();
+        this.vrs = null;
+        this.solverTask = null;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        fileName = getArguments().getString("FILE");
+
+        String fileName = getArguments().getString(VrpKeys.VRP_FILE_NAME.name());
         try {
-            vrs = (VehicleRoutingSolution)  VehicleRoutingImporter
-                .readSolution(fileName, getActivity().getAssets().open(fileName));
+            vrs = (VehicleRoutingSolution)  VehicleRoutingImporter.readSolution(
+                    fileName, getActivity().getAssets().open(fileName));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Problem with vrp file.", e);
+            Toast.makeText(getActivity(), "File was not found.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -59,26 +71,16 @@ public class VrpFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_run) {
-
-            DisplayMetrics metrics = new DisplayMetrics();
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            Log.i("", "XXX " + metrics.density);
-
-            VehicleRoutingSolution vrs = null;
-            try {
-                vrs = (VehicleRoutingSolution) VehicleRoutingImporter
-                        .readSolution(fileName, getActivity().getAssets().open(fileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            new SolverTask(getActivity()).execute(vrs);
+            solverTask = new SolverTask(getActivity()).execute(vrs);
             return true;
         } else if (id == R.id.action_about) {
             AboutAppDialog aad = new AboutAppDialog();
             aad.show(getActivity().getSupportFragmentManager(), "");
+            return true;
         } else if (id == R.id.action_legend) {
             LegendDialog aad = new LegendDialog();
             aad.show(getActivity().getSupportFragmentManager(), "");
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

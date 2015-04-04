@@ -54,7 +54,7 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
             public void onClick(View v) {
                 VrpFragment fragment = new VrpFragment();
                 Bundle b = new Bundle();
-                b.putString("FILE", vrpFileNames[getLayoutPosition()]);
+                b.putString(VrpKeys.VRP_FILE_NAME.name(), vrpFileNames[getLayoutPosition()]);
                 fragment.setArguments(b);
                 fragmentManager.beginTransaction().replace(R.id.activity_main, fragment).addToBackStack(null).commit();
             }
