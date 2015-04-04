@@ -46,6 +46,7 @@ public class VrpFragment extends Fragment {
         } catch (IOException e) {
             Log.e(TAG, "Problem with vrp file.", e);
             Toast.makeText(getActivity(), "File was not found.", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
         }
     }
 
