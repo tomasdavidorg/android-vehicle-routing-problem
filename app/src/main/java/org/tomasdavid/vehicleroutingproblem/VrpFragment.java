@@ -87,6 +87,7 @@ public class VrpFragment extends Fragment {
         if (id == R.id.action_run) {
             Status status = vrpSolverTask.getStatus();
             if (status == Status.PENDING) {
+                item.setIcon(R.drawable.ic_stop_white_24dp);
                 vrpSolverTask.execute(vrs);
             } else if (status == Status.RUNNING) {
                 // TODO stop solver
