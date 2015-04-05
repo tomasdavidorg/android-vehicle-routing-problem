@@ -1,7 +1,10 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
@@ -15,16 +18,44 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
 
     public static final String SOLVER_CONFIG = "vehicleRoutingSolverConfig.xml";
 
+    private boolean running;
+
     private Solver solver;
 
     private VrpFragment fragment;
 
+    private Toast toast;
+
     public VrpSolverTask(VrpFragment fragment) {
         this.fragment = fragment;
+        this.running = false;
     }
 
-    public void stopSolver() {
-        solver.terminateEarly();
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void stopTask() {
+        running = false;
+        if (solver != null) {
+            solver.terminateEarly();
+        }
+    }
+
+    public void cancelToast() {
+        if (toast != null) {
+            toast.cancel();
+        }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        running = true;
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(fragment.getActivity(), R.string.calculation_started, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     @Override
@@ -34,11 +65,14 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
         solver.addEventListener(new SolverEventListener() {
             @Override
             public void bestSolutionChanged(BestSolutionChangedEvent event) {
-                publishProgress((VehicleRoutingSolution) event.getNewBestSolution());
+                if (running) {
+                    publishProgress((VehicleRoutingSolution) event.getNewBestSolution());
+                }
             }
         });
         Log.d(TAG, "Solver built, running solver.");
         solver.solve(vrs[0]);
+        running = false;
         return (VehicleRoutingSolution) solver.getBestSolution();
     }
 
@@ -51,6 +85,18 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
     @Override
     protected void onPostExecute(VehicleRoutingSolution solution) {
         Log.d(TAG, "Calculation finished.");
-        fragment.setVrs(solution);
+        if (fragment != null) {
+            Activity activity = fragment.getActivity();
+            if (activity != null) {
+                ActionMenuItemView item = (ActionMenuItemView) activity.findViewById(R.id.action_run);
+                item.setIcon(activity.getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(activity, R.string.calculation_finished, Toast.LENGTH_SHORT);
+                toast.show();
+                fragment.setVrs(solution);
+            }
+        }
     }
 }

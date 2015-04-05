@@ -1,6 +1,5 @@
 package org.tomasdavid.vehicleroutingproblem;
 
-import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -26,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main);
         if (fragment instanceof VrpFragment) {
             VrpSolverTask vrpSolverTask =  ((VrpFragment) fragment).getVrpSolverTask();
-            if (vrpSolverTask.getStatus() == Status.RUNNING && !(vrpSolverTask.isCancelled())) {
+            if (vrpSolverTask.isRunning()) {
                 new SolverRunningDialog().show(getSupportFragmentManager(), null);
                 return;
             }

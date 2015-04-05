@@ -15,6 +15,10 @@
     <!-- Dialog messages -->
     <string name="solver_running_message">Solver is running. Do you want stop the solver?</string>
 
+    <!-- Toast messages -->
+    <string name="calculation_started">Calculation started.</string>
+    <string name="calculation_finished">Calculation finished.</string>
+
     <!-- Buttons -->
     <string name="button_open_file">Open file</string>
     <string name="button_ok">OK</string>

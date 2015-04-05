@@ -85,14 +85,16 @@ public class VrpFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_run) {
-            Status status = vrpSolverTask.getStatus();
-            if (status == Status.PENDING) {
-                item.setIcon(R.drawable.ic_stop_white_24dp);
-                vrpSolverTask.execute(vrs);
-            } else if (status == Status.RUNNING) {
-                // TODO stop solver
+            vrpSolverTask.cancelToast();
+            if (vrpSolverTask.isRunning()) {
+                vrpSolverTask.stopTask();
+                item.setIcon(R.drawable.ic_play_arrow_white_24dp);
             } else {
-                // TODO run again solver
+                item.setIcon(R.drawable.ic_stop_white_24dp);
+                if (vrpSolverTask.getStatus() != Status.PENDING) {
+                    vrpSolverTask = new VrpSolverTask(this);
+                }
+                vrpSolverTask.execute(vrs);
             }
             return true;
         } else if (id == R.id.action_about) {
