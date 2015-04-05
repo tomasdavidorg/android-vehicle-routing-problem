@@ -4,6 +4,11 @@
     <style name="Theme.VrpTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/red</item>
+        <item name="actionOverflowButtonStyle">@style/Theme.VrpTheme.OverFlow</item>
+    </style>
+
+    <style name="Theme.VrpTheme.OverFlow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
     </style>
 
 </resources>
