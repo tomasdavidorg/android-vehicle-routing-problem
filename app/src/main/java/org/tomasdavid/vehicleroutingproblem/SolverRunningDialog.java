@@ -22,6 +22,7 @@ public class SolverRunningDialog extends DialogFragment {
                         if (fragment instanceof VrpFragment) {
                             VrpSolverTask vrpSolverTask = ((VrpFragment) fragment).getVrpSolverTask();
                             vrpSolverTask.stopTask();
+                            ((MainActivity)getActivity()).lockDrawer();
                             getActivity().onBackPressed();
                         }
                     }

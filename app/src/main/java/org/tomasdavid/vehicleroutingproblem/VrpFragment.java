@@ -71,7 +71,9 @@ public class VrpFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((VrpView)getActivity().findViewById(R.id.vrp_view)).setActualSolution(vrs);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        ((VrpView) mainActivity.findViewById(R.id.vrp_view)).setActualSolution(vrs);
+        mainActivity.unlockDrawer();
     }
 
     @Override
