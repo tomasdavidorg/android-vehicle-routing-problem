@@ -1,90 +1,98 @@
-<TableLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    android:layout_weight="1" >
 
-    <TableRow
-        android:layout_margin="10dp">
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:src="@drawable/vehicle_blue"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"/>
+        <TableRow
+            android:layout_margin="10dp">
 
-        <TextView
-            android:text="@string/legend_vehicle"
-            android:layout_margin="10dp"
-            android:layout_gravity="left|center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-    </TableRow>
+            <ImageView
+                android:src="@drawable/vehicle_blue"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"/>
 
-    <TableRow
-        android:layout_margin="10dp">
+            <TextView
+                android:text="@string/legend_vehicle"
+                android:layout_margin="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </TableRow>
 
-        <ImageView
-            android:src="@drawable/depot"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"/>
+        <TableRow
+            android:layout_margin="10dp">
 
-        <TextView
-            android:text="@string/legend_depot"
-            android:layout_margin="10dp"
-            android:layout_gravity="left|center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-    </TableRow>
+            <ImageView
+                android:src="@drawable/depot"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"/>
 
-    <TableRow
-        android:layout_margin="10dp" >
+            <TextView
+                android:text="@string/legend_depot"
+                android:layout_margin="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </TableRow>
 
-        <TextView
-            android:text="@string/legend_demand"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_customer"/>
+        <TableRow
+            android:layout_margin="10dp" >
 
-        <TextView
-            android:text="@string/legend_customer"
-            android:layout_margin="10dp"
-            android:layout_gravity="left|center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
+            <TextView
+                android:text="@string/legend_demand"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_customer"/>
 
-    <TableRow
-        android:layout_margin="10dp" >
+            <TextView
+                android:text="@string/legend_customer"
+                android:layout_margin="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
 
-        <View
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_line"
-            android:layerType="software"/>
+        <TableRow
+            android:layout_margin="10dp" >
 
-        <TextView
-            android:text="@string/legend_road"
-            android:layout_margin="10dp"
-            android:layout_gravity="left|center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-    </TableRow>
+            <View
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_line"
+                android:layerType="software"/>
 
-    <TableRow
-        android:layout_margin="10dp" >
+            <TextView
+                android:text="@string/legend_road"
+                android:layout_margin="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </TableRow>
 
-        <View
-            android:layout_height="10dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_dash_line"
-            android:layerType="software"/>
+        <TableRow
+            android:layout_margin="10dp" >
 
-        <TextView
-            android:text="@string/legend_depot_road"
-            android:layout_margin="10dp"
-            android:layout_gravity="left|center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            <View
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_dash_line"
+                android:layerType="software"/>
 
-    </TableRow>
+            <TextView
+                android:text="@string/legend_depot_road"
+                android:layout_margin="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-</TableLayout>
+        </TableRow>
+
+    </TableLayout>
+</ScrollView>
