@@ -12,8 +12,13 @@
     <string name="action_about">About application</string>
     <string name="action_legend">Legend</string>
 
+    <!-- Dialog messages -->
+    <string name="solver_running_message">Solver is running. Do you want stop the solver?</string>
+
     <!-- Buttons -->
     <string name="button_open_file">Open file</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
     
     <!-- Legend -->
     <string name="legend_vehicle">Vehicle</string>

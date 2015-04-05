@@ -15,16 +15,22 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
 
     public static final String SOLVER_CONFIG = "vehicleRoutingSolverConfig.xml";
 
+    private Solver solver;
+
     private VrpFragment fragment;
 
     public VrpSolverTask(VrpFragment fragment) {
         this.fragment = fragment;
     }
 
+    public void stopSolver() {
+        solver.terminateEarly();
+    }
+
     @Override
     protected VehicleRoutingSolution doInBackground(VehicleRoutingSolution... vrs) {
         Log.d(TAG, "Building solver.");
-        Solver solver = SolverFactory.createFromXmlResource(SOLVER_CONFIG).buildSolver();
+        solver = SolverFactory.createFromXmlResource(SOLVER_CONFIG).buildSolver();
         solver.addEventListener(new SolverEventListener() {
             @Override
             public void bestSolutionChanged(BestSolutionChangedEvent event) {

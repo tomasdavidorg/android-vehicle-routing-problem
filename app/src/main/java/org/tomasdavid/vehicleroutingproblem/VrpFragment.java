@@ -1,5 +1,6 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,10 @@ public class VrpFragment extends Fragment {
         view.setActualSolution(vrs);
         view.invalidate();
 
+    }
+
+    public VrpSolverTask getVrpSolverTask() {
+        return vrpSolverTask;
     }
 
     @Override
@@ -80,7 +85,14 @@ public class VrpFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_run) {
-            vrpSolverTask.execute(vrs);
+            Status status = vrpSolverTask.getStatus();
+            if (status == Status.PENDING) {
+                vrpSolverTask.execute(vrs);
+            } else if (status == Status.RUNNING) {
+                // TODO stop solver
+            } else {
+                // TODO run again solver
+            }
             return true;
         } else if (id == R.id.action_about) {
             AboutAppDialog aad = new AboutAppDialog();
