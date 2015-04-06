@@ -5,11 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ListView;
+import android.view.Gravity;
 
 public class MainActivity extends ActionBarActivity {
-
-    private ListView mDrawerList;
 
     private DrawerLayout mDrawerLayout;
 
@@ -18,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void lockDrawer() {
+        mDrawerLayout.closeDrawer(Gravity.START);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.INVISIBLE);
     }
 
@@ -28,7 +27,6 @@ public class MainActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         lockDrawer();
