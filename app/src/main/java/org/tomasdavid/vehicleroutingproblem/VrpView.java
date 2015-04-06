@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 
 import java.util.ArrayList;
@@ -45,6 +46,20 @@ public class VrpView extends View {
             ListView listView = (ListView) context.findViewById(R.id.left_drawer);
             StatisticsListAdapter listAdapter = (StatisticsListAdapter) listView.getAdapter();
             listAdapter.clear();
+            HardSoftScore score = actualSolution.getScore();
+            StatisticItem statisticItem;
+            if (score == null) {
+                statisticItem = new StatisticItem(
+                        R.drawable.ic_launcher,
+                        "Score ",
+                        " - ");
+            } else {
+                statisticItem = new StatisticItem(
+                        R.drawable.ic_launcher,
+                        "Score ",
+                        actualSolution.getScore().getHardScore() + "/" + actualSolution.getScore().getSoftScore());
+            }
+            listAdapter.add(statisticItem);
             listAdapter.addAll(newStatisticItemList);
             listAdapter.notifyDataSetChanged();
         }
