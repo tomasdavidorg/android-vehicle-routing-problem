@@ -6,9 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.RectF;
 
@@ -19,6 +19,9 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for painting vehicle routing solution to screen.
@@ -99,13 +102,16 @@ public class VrpPainter {
      * Paints vehicle routing solution to canvas.
      * @param c Canvas to paint.
      * @param vrs Vehicle routing solution.
+     * @return List of statistic items for navigation drawer.
      */
-    public void paint(Canvas c, VehicleRoutingSolution vrs) {
+    public List<StatisticItem> paint(Canvas c, VehicleRoutingSolution vrs) {
         int mtwt = determineMaximumTimeWindowTime(vrs);
         float width = c.getWidth();
         float height = c.getHeight();
 
         VrpTranslator vrpt = new VrpTranslator(vrs, width, height, res);
+
+        List<StatisticItem> statisticItemList = new ArrayList<>();
 
         int colorIndex = 0;
 
@@ -170,6 +176,11 @@ public class VrpPainter {
                         (ascending ? y : y + vehicleInfoHeight), ct);
                 ct.setColor(res.getColor(R.color.black));
             }
+
+            statisticItemList.add(new StatisticItem(
+                    res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0),
+                    Vehicle.class.getSimpleName() + " " + vehicle.getId(),
+                    load + " / " + vehicle.getCapacity()));
 
             // change color index
             colorIndex = (colorIndex + 1) % res.obtainTypedArray(R.array.vehicle_colors).length();
@@ -237,6 +248,8 @@ public class VrpPainter {
                     y + res.getDimension(R.dimen.customer_radius) / 2,
                     ct);
         }
+
+        return statisticItemList;
     }
 
     /**

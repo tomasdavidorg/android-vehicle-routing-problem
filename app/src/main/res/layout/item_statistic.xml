@@ -13,11 +13,13 @@
     <TextView
         android:id="@+id/item_statistic_name"
         android:layout_width="100dp"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/item_statistic_value"
         android:layout_width="100dp"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>
