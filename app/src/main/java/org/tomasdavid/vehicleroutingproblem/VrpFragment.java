@@ -79,6 +79,12 @@ public class VrpFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_vrp, menu);
+        MenuItem playStopButton = menu.findItem(R.id.action_run);
+        if (vrpSolverTask.isRunning()) {
+            playStopButton.setIcon(R.drawable.ic_stop_white_24dp);
+        } else {
+            playStopButton.setIcon(R.drawable.ic_play_arrow_white_24dp);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
