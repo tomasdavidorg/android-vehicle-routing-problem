@@ -1,5 +1,7 @@
 package org.tomasdavid.vehicleroutingproblem;
 
+import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
@@ -26,10 +29,16 @@ public class VrpFragment extends Fragment {
 
     private VrpSolverTask vrpSolverTask;
 
+    private ProgressBarTask progressBarTask;
+
+    private int timeLimitInSeconds;
+
     public VrpFragment() {
         super();
         this.vrs = null;
         this.vrpSolverTask = null;
+        this.timeLimitInSeconds = 0;
+        this.progressBarTask = null;
     }
 
     public void setVrs(VehicleRoutingSolution vrs) {
@@ -60,7 +69,10 @@ public class VrpFragment extends Fragment {
             getActivity().onBackPressed();
         }
 
+        timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name(), 10);
+Log.d("", timeLimitInSeconds + " is valuse");
         vrpSolverTask = new VrpSolverTask(this);
+        progressBarTask = new ProgressBarTask(this);
     }
 
     @Override
@@ -74,6 +86,10 @@ public class VrpFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         ((VrpView) mainActivity.findViewById(R.id.vrp_view)).setActualSolution(vrs);
         mainActivity.unlockDrawer();
+
+        ProgressBar pb = (ProgressBar)getActivity().findViewById(R.id.progress_bar);
+        pb.setMax(timeLimitInSeconds);
+        pb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.dark_green), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -102,7 +118,11 @@ public class VrpFragment extends Fragment {
                 if (vrpSolverTask.getStatus() != Status.PENDING) {
                     vrpSolverTask = new VrpSolverTask(this);
                 }
-                vrpSolverTask.execute(vrs);
+                vrpSolverTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, vrs);
+                if (progressBarTask.getStatus() != Status.PENDING) {
+                    progressBarTask = new ProgressBarTask(this);
+                }
+                progressBarTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, timeLimitInSeconds);
             }
             return true;
         } else if (id == R.id.action_about) {

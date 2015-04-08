@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.VrpFileItemViewHolder> {
 
+    private int timeLimit;
+
     private String[] vrpFileNames;
 
     private FragmentManager fragmentManager;
@@ -18,6 +20,10 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
     public VrpFileListAdapter(String[] vrpFileNames, FragmentManager fragmentManager) {
         this.vrpFileNames = vrpFileNames;
         this.fragmentManager = fragmentManager;
+    }
+
+    public void setTimeLimit(int timeLimit) {
+        this.timeLimit = timeLimit;
     }
 
     @Override
@@ -54,6 +60,7 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
             public void onClick(View v) {
                 VrpFragment fragment = new VrpFragment();
                 Bundle b = new Bundle();
+                b.putInt(VrpKeys.VRP_TIME_LIMIT.name(), timeLimit);
                 b.putString(VrpKeys.VRP_FILE_NAME.name(), vrpFileNames[getLayoutPosition()]);
                 fragment.setArguments(b);
                 fragmentManager.beginTransaction().replace(R.id.activity_main, fragment).addToBackStack(null).commit();
