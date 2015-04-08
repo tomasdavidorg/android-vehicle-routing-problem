@@ -214,9 +214,10 @@ public class VrpPainter {
             if (customer instanceof TimeWindowedCustomer) {
                 // draw time window arc
                 TimeWindowedCustomer twc = (TimeWindowedCustomer) customer;
-                int startAngle = 0 - calculateTimeWindowDegree(mtwt, twc.getReadyTime());
-                int endAngle = calculateTimeWindowDegree(mtwt, twc.getReadyTime())
-                        - calculateTimeWindowDegree(mtwt, twc.getDueTime());
+                int startAngle = calculateTimeWindowDegree(mtwt, twc.getReadyTime()) - 90;
+                int endAngle = calculateTimeWindowDegree(mtwt, twc.getDueTime())
+                        - calculateTimeWindowDegree(mtwt, twc.getReadyTime());
+
                 c.drawArc(oval, startAngle, endAngle, true, ww);
                 c.drawArc(oval, startAngle, endAngle, false, wa);
 
