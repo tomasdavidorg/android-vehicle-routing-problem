@@ -19,6 +19,10 @@ public class VrpView extends View {
 
     private static final NumberFormat NUMBER_FORMAT = new DecimalFormat("#,##0.00");
 
+    private static final String SCORE_TITLE = "Hard/Soft Score ";
+
+    private static final String DISTANCE_TITLE = "Distance ";
+
     private VrpPainter vp;
 
     private VehicleRoutingSolution actualSolution;
@@ -53,16 +57,16 @@ public class VrpView extends View {
             HardSoftScore score = actualSolution.getScore();
             StatisticItem scoreItem, distanceItem;
             if (score == null || !score.isFeasible()) {
-                scoreItem = new StatisticItem(0, "Score ", " - ");
-                distanceItem = new StatisticItem(0, "Distance ", " - ");
+                scoreItem = new StatisticItem(0, SCORE_TITLE, " - ");
+                distanceItem = new StatisticItem(0, DISTANCE_TITLE, " - ");
             } else {
                 scoreItem = new StatisticItem(
                         0,
-                        "Hard/Soft Score ",
+                        SCORE_TITLE,
                         actualSolution.getScore().getHardScore() + "/" + actualSolution.getScore().getSoftScore());
                 distanceItem = new StatisticItem(
                         0,
-                        "Distance ",
+                        DISTANCE_TITLE,
                         NUMBER_FORMAT.format(((double) - score.getSoftScore()) / 1000.0));
             }
             listAdapter.add(scoreItem);
