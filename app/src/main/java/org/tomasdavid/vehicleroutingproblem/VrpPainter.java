@@ -153,9 +153,9 @@ public class VrpPainter {
             }
 
             if (vehicleInfoCustomer != null) {
-                if (load > vehicle.getCapacity()) {
-                    ct.setColor(res.getColor(R.color.dark_red));
-                }
+//                if (load > vehicle.getCapacity()) {
+//                    ct.setColor(res.getColor(R.color.dark_red));
+//                }
 
                 Location prevLocation = vehicleInfoCustomer.getPreviousStandstill().getLocation();
                 Location location = vehicleInfoCustomer.getLocation();
@@ -163,18 +163,18 @@ public class VrpPainter {
                 float x = vrpt.translateLongitudeToX(longitude);
                 double latitude = (prevLocation.getLatitude() + location.getLatitude()) / 2.0;
                 float y = vrpt.translateLatitudeToY(latitude);
-                boolean ascending = (prevLocation.getLongitude() < location.getLongitude())
-                        ^ (prevLocation.getLatitude() < location.getLatitude());
+//                boolean ascending = (prevLocation.getLongitude() < location.getLongitude())
+//                        ^ (prevLocation.getLatitude() < location.getLatitude());
 
                 int resId = res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0);
                 Bitmap vehBitmap = BitmapFactory.decodeResource(res, resId);
-                int vehicleInfoHeight = (int) (vehBitmap.getHeight() + res.getDimension(R.dimen.customer_radius));
+//                int vehicleInfoHeight = (int) (vehBitmap.getHeight() + res.getDimension(R.dimen.customer_radius));
 
                 // draw vehicle and its capacity
-                c.drawBitmap(vehBitmap, x, (ascending ? y - vehicleInfoHeight : y), null);
-                c.drawText(load + " / " + vehicle.getCapacity(), x,
-                        (ascending ? y : y + vehicleInfoHeight), ct);
-                ct.setColor(res.getColor(R.color.black));
+                c.drawBitmap(vehBitmap, x, y, null);
+//                c.drawText(load + " / " + vehicle.getCapacity(), x,
+//                        (ascending ? y : y + vehicleInfoHeight), ct);
+//                ct.setColor(res.getColor(R.color.black));
             }
 
             statisticItemList.add(new StatisticItem(
