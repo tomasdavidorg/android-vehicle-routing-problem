@@ -10,10 +10,14 @@ import android.widget.ListView;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VrpView extends View {
+
+    private static final NumberFormat NUMBER_FORMAT = new DecimalFormat("#,##0.00");
 
     private VrpPainter vp;
 
@@ -47,19 +51,22 @@ public class VrpView extends View {
             StatisticsListAdapter listAdapter = (StatisticsListAdapter) listView.getAdapter();
             listAdapter.clear();
             HardSoftScore score = actualSolution.getScore();
-            StatisticItem statisticItem;
-            if (score == null) {
-                statisticItem = new StatisticItem(
-                        R.drawable.ic_launcher,
-                        "Score ",
-                        " - ");
+            StatisticItem scoreItem, distanceItem;
+            if (score == null || !score.isFeasible()) {
+                scoreItem = new StatisticItem(0, "Score ", " - ");
+                distanceItem = new StatisticItem(0, "Distance ", " - ");
             } else {
-                statisticItem = new StatisticItem(
-                        R.drawable.ic_launcher,
-                        "Score ",
+                scoreItem = new StatisticItem(
+                        0,
+                        "Hard/Soft Score ",
                         actualSolution.getScore().getHardScore() + "/" + actualSolution.getScore().getSoftScore());
+                distanceItem = new StatisticItem(
+                        0,
+                        "Distance ",
+                        NUMBER_FORMAT.format(((double) - score.getSoftScore()) / 1000.0));
             }
-            listAdapter.add(statisticItem);
+            listAdapter.add(scoreItem);
+            listAdapter.add(distanceItem);
             listAdapter.addAll(newStatisticItemList);
             listAdapter.notifyDataSetChanged();
         }
