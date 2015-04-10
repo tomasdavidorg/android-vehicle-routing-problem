@@ -8,12 +8,13 @@
         android:title="@string/action_run"
         android:orderInCategory="1"
         android:icon="@drawable/ic_play_arrow_white_24dp"
-        app:showAsAction="always" />
+        app:showAsAction="always"/>
 
     <item android:id="@+id/action_legend"
         android:title="@string/action_legend"
         android:orderInCategory="2"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_help_white_24dp"
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_about"
         android:title="@string/action_about"
