@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -34,7 +37,34 @@ public class MainFragment extends Fragment {
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.algorithms, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         algSpinner.setAdapter(spinnerAdapter);
+
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_vrp, menu);
+        MenuItem playStopButton = menu.findItem(R.id.action_run);
+        playStopButton.setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_about) {
+            AboutAppDialog aad = new AboutAppDialog();
+            aad.show(getActivity().getSupportFragmentManager(), "");
+            return true;
+        } else if (id == R.id.action_legend) {
+            LegendDialog aad = new LegendDialog();
+            aad.show(getActivity().getSupportFragmentManager(), "");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class OpenFileButtonClick implements OnClickListener {
