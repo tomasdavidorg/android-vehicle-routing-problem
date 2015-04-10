@@ -35,4 +35,16 @@
     <string name="legend_depot_road">Road to depot</string>
     <string name="legend_demand">10</string>
 
+    <!-- Longer texts -->
+    <string name="select_time_text">1. Select time limit in seconds</string>
+    <string name="select_algorithm_text">2. Select algorithm</string>
+    <string name="select_file_text">3. Continue to select file</string>
+    <string name="welcome_text">
+        <![CDATA[
+        <h2>Welcome to the Vehicle Routing Problem Application!</h2>
+        <p>Please select time limit in seconds, algorithm for calculation and click to the Open file button.
+        After that, you can select example vrp problem to solve.</p>
+        ]]>
+    </string>
+
 </resources>

@@ -19,4 +19,10 @@
         <item>@color/brown</item>
         <item>@color/yellow</item>
     </array>
+
+    <array name="algorithms">
+        <item>"First fit decreasing"</item>
+        <item>"Branch and bound"</item>
+        <item>"Brute force"</item>
+    </array>
 </resources>
