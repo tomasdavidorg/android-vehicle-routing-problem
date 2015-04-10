@@ -71,8 +71,7 @@ public class VrpFragment extends Fragment {
         }
 
         timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name(), 10);
-Log.d("", timeLimitInSeconds + " is valuse");
-        vrpSolverTask = new VrpSolverTask(this);
+        vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds);
         progressBarTask = new ProgressBarTask(this);
     }
 
@@ -117,7 +116,7 @@ Log.d("", timeLimitInSeconds + " is valuse");
             } else {
                 item.setIcon(R.drawable.ic_stop_white_24dp);
                 if (vrpSolverTask.getStatus() != Status.PENDING) {
-                    vrpSolverTask = new VrpSolverTask(this);
+                    vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds);
                 }
                 vrpSolverTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, vrs);
                 if (progressBarTask.getStatus() != Status.PENDING) {

@@ -6,19 +6,23 @@ import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.commons.io.IOUtils;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRoutingSolution, VehicleRoutingSolution> {
 
     private static final String TAG = "VrpSolverTask";
 
-    public static final String SOLVER_CONFIG = "vehicleRoutingSolverConfig.xml";
-
     private boolean running;
+
+    private int timeLimit;
 
     private Solver solver;
 
@@ -26,9 +30,10 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
 
     private Toast toast;
 
-    public VrpSolverTask(VrpFragment fragment) {
+    public VrpSolverTask(VrpFragment fragment, int timeLimit) {
         this.fragment = fragment;
         this.running = false;
+        this.timeLimit = timeLimit;
     }
 
     public boolean isRunning() {
@@ -61,7 +66,16 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
     @Override
     protected VehicleRoutingSolution doInBackground(VehicleRoutingSolution... vrs) {
         Log.d(TAG, "Building solver.");
-        solver = SolverFactory.createFromXmlResource(SOLVER_CONFIG).buildSolver();
+
+        try {
+            InputStream is = fragment.getActivity().getAssets().open("solvers/vehicleRoutingSolverConfig.xml");
+            String solverConfig = IOUtils.toString(is);
+            solver = SolverFactory.createFromXmlInputStream(IOUtils.toInputStream(solverConfig.replace("TIME_LIMIT", Integer.toString(timeLimit)))).buildSolver();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         solver.addEventListener(new SolverEventListener() {
             @Override
             public void bestSolutionChanged(BestSolutionChangedEvent event) {
