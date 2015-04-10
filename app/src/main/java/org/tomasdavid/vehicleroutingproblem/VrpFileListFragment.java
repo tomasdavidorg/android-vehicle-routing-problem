@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ public class VrpFileListFragment extends Fragment {
 
         // get all assets
         try {
-            assetsRoot = getActivity().getAssets().list("");
+            assetsRoot = getActivity().getAssets().list(getActivity().getString(R.string.vrps_dir));
         } catch (IOException e) {
             assetsRoot = new String[0];
         }

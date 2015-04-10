@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
 
+import java.io.File;
 import java.io.IOException;
 
 public class VrpFragment extends Fragment {
@@ -62,7 +63,7 @@ public class VrpFragment extends Fragment {
         String fileName = getArguments().getString(VrpKeys.VRP_FILE_NAME.name());
         try {
             vrs = (VehicleRoutingSolution)  VehicleRoutingImporter.readSolution(
-                    fileName, getActivity().getAssets().open(fileName));
+                    fileName, getActivity().getAssets().open(getActivity().getString(R.string.vrps_dir) + File.separator + fileName));
         } catch (IOException e) {
             Log.e(TAG, "Problem with vrp file.", e);
             Toast.makeText(getActivity(), "File was not found.", Toast.LENGTH_SHORT).show();

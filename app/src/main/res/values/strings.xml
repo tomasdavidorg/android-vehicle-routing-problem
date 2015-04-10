@@ -12,6 +12,9 @@
     <string name="action_about">About application</string>
     <string name="action_legend">Legend</string>
 
+    <!-- Directories -->
+    <string name="vrps_dir">vrps</string>
+
     <!-- Dialog messages -->
     <string name="solver_running_message">Solver is running. Do you want stop the solver?</string>
 
