@@ -1,8 +1,6 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.tomasdavid.vehicleroutingproblem.VrpFragment" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/action_run"
         android:title="@string/action_run"
@@ -14,11 +12,12 @@
         android:title="@string/action_legend"
         android:orderInCategory="2"
         android:icon="@drawable/ic_help_white_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_about"
         android:title="@string/action_about"
         android:orderInCategory="3"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_info_white_24dp"
+        app:showAsAction="ifRoom"/>
 
 </menu>
