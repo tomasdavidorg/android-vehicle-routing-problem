@@ -56,7 +56,7 @@ public class VrpView extends View {
             listAdapter.clear();
             HardSoftScore score = actualSolution.getScore();
             StatisticItem scoreItem, distanceItem;
-            if (score == null || !score.isFeasible()) {
+            if (score == null) {
                 scoreItem = new StatisticItem(0, SCORE_TITLE, " - ");
                 distanceItem = new StatisticItem(0, DISTANCE_TITLE, " - ");
             } else {
