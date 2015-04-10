@@ -13,6 +13,8 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
 
     private int timeLimit;
 
+    private String algorithm;
+
     private String[] vrpFileNames;
 
     private FragmentManager fragmentManager;
@@ -24,6 +26,10 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
 
     public void setTimeLimit(int timeLimit) {
         this.timeLimit = timeLimit;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
     }
 
     @Override
@@ -61,6 +67,7 @@ public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.
                 VrpFragment fragment = new VrpFragment();
                 Bundle b = new Bundle();
                 b.putInt(VrpKeys.VRP_TIME_LIMIT.name(), timeLimit);
+                b.putString(VrpKeys.VRP_ALGORITHM.name(), algorithm);
                 b.putString(VrpKeys.VRP_FILE_NAME.name(), vrpFileNames[getLayoutPosition()]);
                 fragment.setArguments(b);
                 fragmentManager.beginTransaction().replace(R.id.activity_main, fragment).addToBackStack(null).commit();

@@ -43,6 +43,7 @@ public class VrpFileListFragment extends Fragment {
 
         VrpFileListAdapter mAdapter = new VrpFileListAdapter(vrpAssets.toArray(new String[vrpAssets.size()]), getActivity().getSupportFragmentManager());
         mAdapter.setTimeLimit(getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name()));
+        mAdapter.setAlgorithm(getArguments().getString(VrpKeys.VRP_ALGORITHM.name()));
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

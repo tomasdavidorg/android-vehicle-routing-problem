@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <array name="vehicles">
         <item>@drawable/vehicle_red</item>
         <item>@drawable/vehicle_green</item>
@@ -21,8 +22,15 @@
     </array>
 
     <array name="algorithms">
-        <item>"First fit decreasing"</item>
-        <item>"Branch and bound"</item>
-        <item>"Brute force"</item>
+        <item>@string/first_fit_decreasing</item>
+        <item>@string/branch_and_bound</item>
+        <item>@string/brute_force</item>
     </array>
+
+    <array name="algorithm_files">
+        <item>@string/first_fit_decreasing_file_name</item>
+        <item>@string/branch_and_bound_file_name</item>
+        <item>@string/brute_force_file_name</item>
+    </array>
+
 </resources>

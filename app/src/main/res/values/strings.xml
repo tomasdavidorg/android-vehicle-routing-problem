@@ -47,4 +47,14 @@
         ]]>
     </string>
 
+    <!-- Algorithms -->
+    <string name="first_fit_decreasing">First fit decreasing</string>
+    <string name="branch_and_bound">Branch and bound</string>
+    <string name="brute_force">Brute force</string>
+
+    <!-- Algorithm files-->
+    <string name="first_fit_decreasing_file_name">vrpFirstFitDecreasingSolverConfig.xml</string>
+    <string name="branch_and_bound_file_name">vrpBranchAndBoundSolverConfig.xml</string>
+    <string name="brute_force_file_name">vrpBruteForceSolverConfig.xml</string>
+
 </resources>

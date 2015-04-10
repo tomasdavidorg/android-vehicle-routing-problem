@@ -43,8 +43,11 @@ public class MainFragment extends Fragment {
         public void onClick(View v) {
 
             NumberPicker numberPicker = (NumberPicker) getActivity().findViewById(R.id.timeLimitPicker);
+            Spinner algSpinner = (Spinner) getActivity().findViewById(R.id.algorithm_spinner);
+
             Bundle b = new Bundle();
             b.putInt(VrpKeys.VRP_TIME_LIMIT.name(), numberPicker.getValue());
+            b.putString(VrpKeys.VRP_ALGORITHM.name(), getActivity().getResources().obtainTypedArray(R.array.algorithm_files).getString(algSpinner.getSelectedItemPosition()));
 
             VrpFileListFragment a = new VrpFileListFragment();
             a.setArguments(b);

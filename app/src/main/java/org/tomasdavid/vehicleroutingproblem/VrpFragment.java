@@ -34,12 +34,15 @@ public class VrpFragment extends Fragment {
 
     private int timeLimitInSeconds;
 
+    private String algorithm;
+
     public VrpFragment() {
         super();
         this.vrs = null;
         this.vrpSolverTask = null;
         this.timeLimitInSeconds = 0;
         this.progressBarTask = null;
+        this.algorithm = null;
     }
 
     public void setVrs(VehicleRoutingSolution vrs) {
@@ -70,8 +73,9 @@ public class VrpFragment extends Fragment {
             getActivity().onBackPressed();
         }
 
-        timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name(), 10);
-        vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds);
+        timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name());
+        algorithm = getArguments().getString(VrpKeys.VRP_ALGORITHM.name());
+        vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds, algorithm);
         progressBarTask = new ProgressBarTask(this);
     }
 
@@ -116,7 +120,7 @@ public class VrpFragment extends Fragment {
             } else {
                 item.setIcon(R.drawable.ic_stop_white_24dp);
                 if (vrpSolverTask.getStatus() != Status.PENDING) {
-                    vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds);
+                    vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds, algorithm);
                 }
                 vrpSolverTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, vrs);
                 if (progressBarTask.getStatus() != Status.PENDING) {
