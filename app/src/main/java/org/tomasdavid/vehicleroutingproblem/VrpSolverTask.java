@@ -68,7 +68,7 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
         Log.d(TAG, "Building solver.");
 
         try {
-            InputStream is = fragment.getActivity().getAssets().open("solvers/vehicleRoutingSolverConfig.xml");
+            InputStream is = fragment.getActivity().getAssets().open("solvers/vrpFirstFitDecreasingSolverConfig.xml");
             String solverConfig = IOUtils.toString(is);
             solver = SolverFactory.createFromXmlInputStream(IOUtils.toInputStream(solverConfig.replace("TIME_LIMIT", Integer.toString(timeLimit)))).buildSolver();
         } catch (IOException e) {

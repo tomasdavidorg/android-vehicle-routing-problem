@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <solutionClass>org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution</solutionClass>
+    <entityClass>org.optaplanner.examples.vehiclerouting.domain.Standstill</entityClass>
+    <entityClass>org.optaplanner.examples.vehiclerouting.domain.Customer</entityClass>
+    <entityClass>org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer</entityClass>
+
+    <scoreDirectorFactory>
+        <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>
+        <easyScoreCalculatorClass>org.optaplanner.examples.vehiclerouting.solver.score.VehicleRoutingEasyScoreCalculator</easyScoreCalculatorClass>
+        <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
+    </scoreDirectorFactory>
+
+    <termination>
+        <secondsSpentLimit>TIME_LIMIT</secondsSpentLimit>
+    </termination>
+
+    <exhaustiveSearch>
+        <exhaustiveSearchType>BRUTE_FORCE</exhaustiveSearchType>
+    </exhaustiveSearch>
+</solver>
