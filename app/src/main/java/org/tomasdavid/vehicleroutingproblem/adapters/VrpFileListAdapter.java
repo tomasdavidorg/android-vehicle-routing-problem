@@ -8,6 +8,8 @@ import org.tomasdavid.vehicleroutingproblem.R;
 
 /**
  * Adapter of vrp file list.
+ *
+ * @author Tomas David
  */
 public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileItemViewHolder> {
 

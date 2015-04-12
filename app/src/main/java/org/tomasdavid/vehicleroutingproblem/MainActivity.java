@@ -14,6 +14,8 @@ import org.tomasdavid.vehicleroutingproblem.tasks.VrpSolverTask;
 
 /**
  * Main and only activity of application.
+ *
+ * @author Tomas David
  */
 public class MainActivity extends ActionBarActivity {
 

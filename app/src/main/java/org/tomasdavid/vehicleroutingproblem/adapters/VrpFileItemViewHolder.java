@@ -12,6 +12,8 @@ import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
 
 /**
  * Vrp file item view holder for vrp list of files.
+ *
+ * @author Tomas David
  */
 public class VrpFileItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

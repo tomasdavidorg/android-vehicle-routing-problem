@@ -15,6 +15,8 @@ import org.tomasdavid.vehicleroutingproblem.fragments.VrpFileListFragment;
 
 /**
  * Button for continue to vrp list fragment.
+ *
+ * @author Tomas David
  */
 public class OpenFileButton extends Button implements View.OnClickListener {
 

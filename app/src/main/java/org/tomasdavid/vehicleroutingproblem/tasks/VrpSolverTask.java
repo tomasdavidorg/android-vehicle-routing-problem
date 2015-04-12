@@ -20,6 +20,8 @@ import java.io.InputStream;
 
 /**
  * Vrp solver tasks for calculation of vehicle routing problem.
+ *
+ * @author Tomas David
  */
 public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRoutingSolution, VehicleRoutingSolution> {
 

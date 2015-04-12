@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * Adapter for statistic items of navigation drawer.
+ *
+ * @author Tomas David
  */
 public class StatisticsListAdapter extends ArrayAdapter<StatisticItem> {
 

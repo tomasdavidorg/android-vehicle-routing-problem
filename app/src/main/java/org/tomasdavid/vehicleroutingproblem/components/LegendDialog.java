@@ -12,6 +12,7 @@ import org.tomasdavid.vehicleroutingproblem.R;
 
 /**
  * Dialog contains legend to vehicle routing problem.
+ *
  * @author Tomas David
  */
 public class LegendDialog extends DialogFragment implements DialogInterface.OnClickListener {

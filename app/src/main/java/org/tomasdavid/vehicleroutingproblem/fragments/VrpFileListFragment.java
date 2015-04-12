@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 /**
  * Fragment for displaying list of vrp files.
+ *
+ * @author Tomas David
  */
 public class VrpFileListFragment extends Fragment {
 

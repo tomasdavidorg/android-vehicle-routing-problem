@@ -15,6 +15,8 @@ import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
 
 /**
  * Stop solver dialog. Displays when solver running and user clicks on the back button.
+ *
+ * @author Tomas David
  */
 public class StopSolverDialog extends DialogFragment implements OnClickListener {
 

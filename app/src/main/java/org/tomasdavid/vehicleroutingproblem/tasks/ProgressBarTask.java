@@ -10,6 +10,8 @@ import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
 
 /**
  * Progress bar task for change time progress of progress bar when solver is solving.
+ *
+ * @author Tomas David
  */
 public class ProgressBarTask extends AsyncTask<Integer, Void, Void> {
 

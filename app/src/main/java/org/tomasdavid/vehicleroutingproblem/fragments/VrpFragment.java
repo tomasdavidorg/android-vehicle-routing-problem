@@ -32,6 +32,8 @@ import java.io.IOException;
 
 /**
  * Vrp fragment for displaying and calculation of vrp problem.
+ *
+ * @author Tomas David
  */
 public class VrpFragment extends Fragment {
 

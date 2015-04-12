@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * View for displaying actual vehicle routing solution.
+ *
+ * @author Tomas David
  */
 public class VrpView extends View {
 

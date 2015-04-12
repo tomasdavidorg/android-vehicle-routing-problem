@@ -10,9 +10,10 @@ import android.support.v4.app.DialogFragment;
 import android.text.Html;
 
 /**
-* Dialog for providing basic information about the application.
-* @author Tomas David
-*/
+ * Dialog for providing basic information about the application.
+ *
+ * @author Tomas David
+ */
 public class AboutAppDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     /**

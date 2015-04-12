@@ -20,6 +20,8 @@ import org.tomasdavid.vehicleroutingproblem.R;
 
 /**
  * Main fragment with settings.
+ *
+ * @author Tomas David
  */
 public class MainFragment extends Fragment {
 
