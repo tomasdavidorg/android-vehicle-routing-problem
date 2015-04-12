@@ -1,18 +1,19 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.components;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
+import android.text.Html;
 
 /**
- * Dialog contains legend to vehicle routing problem.
- * @author Tomas David
- */
-public class LegendDialog extends DialogFragment implements DialogInterface.OnClickListener {
+* Dialog for providing basic information about the application.
+* @author Tomas David
+*/
+public class AboutAppDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     /**
      * OK button text.
@@ -22,17 +23,23 @@ public class LegendDialog extends DialogFragment implements DialogInterface.OnCl
     /**
      * Title of dialog.
      */
-    private static final String TITLE = "Legend";
+    private static final String TITLE = "About application";
+
+    /**
+     * Body of dialog.
+     */
+    private static final String MESSAGE = "<b>Author:</b> Tomas David<br>" +
+            "<b>Year:</b> 2015" +
+            "<p>Application demonstrate OptaPlanner functionality on the Android platform. " +
+            "Demonstration is exemplified by Vehicle routing problem example.</p>";
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setTitle(TITLE)
-               .setView(inflater.inflate(R.layout.dialog_legend, null))
+               .setMessage(Html.fromHtml(MESSAGE))
                .setPositiveButton(OK, this);
-
         return builder.create();
     }
 

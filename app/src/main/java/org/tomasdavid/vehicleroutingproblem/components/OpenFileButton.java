@@ -1,4 +1,4 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.components;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import org.tomasdavid.vehicleroutingproblem.R;
+import org.tomasdavid.vehicleroutingproblem.VrpKeys;
 import org.tomasdavid.vehicleroutingproblem.fragments.VrpFileListFragment;
 
 /**

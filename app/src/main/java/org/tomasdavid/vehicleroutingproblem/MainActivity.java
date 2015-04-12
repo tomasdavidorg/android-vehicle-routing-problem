@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 
+import org.tomasdavid.vehicleroutingproblem.components.StopSolverDialog;
 import org.tomasdavid.vehicleroutingproblem.fragments.MainFragment;
 import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
 
@@ -47,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         if (fragment instanceof VrpFragment) {
             VrpSolverTask vrpSolverTask =  ((VrpFragment) fragment).getVrpSolverTask();
             if (vrpSolverTask.isRunning()) {
-                new SolverRunningDialog().show(getSupportFragmentManager(), null);
+                new StopSolverDialog().show(getSupportFragmentManager(), null);
                 return;
             } else {
                 lockDrawer();

@@ -14,8 +14,8 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.tomasdavid.vehicleroutingproblem.AboutAppDialog;
-import org.tomasdavid.vehicleroutingproblem.LegendDialog;
+import org.tomasdavid.vehicleroutingproblem.components.AboutAppDialog;
+import org.tomasdavid.vehicleroutingproblem.components.LegendDialog;
 import org.tomasdavid.vehicleroutingproblem.R;
 
 /**

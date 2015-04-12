@@ -80,7 +80,7 @@
                     android:layout_marginBottom="@dimen/margin"
                     android:textSize="@dimen/text_size"/>
 
-                <org.tomasdavid.vehicleroutingproblem.OpenFileButton
+                <org.tomasdavid.vehicleroutingproblem.components.OpenFileButton
                     android:id="@+id/button_open_file"
                     android:layout_width="@dimen/button_width"
                     android:layout_height="@dimen/button_height"
