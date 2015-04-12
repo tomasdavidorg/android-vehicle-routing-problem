@@ -1,9 +1,10 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.painter;
 
 import android.content.res.Resources;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.tomasdavid.vehicleroutingproblem.R;
 
 /**
  * Class for translation between longitude/latitude and screen coordinate system.

@@ -21,29 +21,53 @@ import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporte
 import org.tomasdavid.vehicleroutingproblem.components.AboutAppDialog;
 import org.tomasdavid.vehicleroutingproblem.components.LegendDialog;
 import org.tomasdavid.vehicleroutingproblem.MainActivity;
-import org.tomasdavid.vehicleroutingproblem.ProgressBarTask;
+import org.tomasdavid.vehicleroutingproblem.tasks.ProgressBarTask;
 import org.tomasdavid.vehicleroutingproblem.R;
 import org.tomasdavid.vehicleroutingproblem.VrpKeys;
-import org.tomasdavid.vehicleroutingproblem.VrpSolverTask;
+import org.tomasdavid.vehicleroutingproblem.tasks.VrpSolverTask;
 import org.tomasdavid.vehicleroutingproblem.components.VrpView;
 
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Vrp fragment for displaying and calculation of vrp problem.
+ */
 public class VrpFragment extends Fragment {
 
+    /**
+     * Class tag.
+     */
     private static final String TAG = "VrpFragment";
 
+    /**
+     * Actual vehicle routing solution.
+     */
     private VehicleRoutingSolution vrs;
 
+    /**
+     * Vrp solver task.
+     */
     private VrpSolverTask vrpSolverTask;
 
+    /**
+     * Vrp fragment progress bar.
+     */
     private ProgressBarTask progressBarTask;
 
+    /**
+     * Time limit of calculation.
+     */
     private int timeLimitInSeconds;
 
+    /**
+     * Algorithm for calculation.
+     */
     private String algorithm;
 
+    /**
+     * Default constructor.
+     */
     public VrpFragment() {
         super();
         this.vrs = null;
@@ -53,6 +77,10 @@ public class VrpFragment extends Fragment {
         this.algorithm = null;
     }
 
+    /**
+     * Sets actual vrs.
+     * @param vrs Actual vrs.
+     */
     public void setVrs(VehicleRoutingSolution vrs) {
         this.vrs = vrs;
         VrpView view = (VrpView) getActivity().findViewById(R.id.vrp_view);
@@ -61,16 +89,24 @@ public class VrpFragment extends Fragment {
 
     }
 
+    /**
+     * Returns vrp solver task.
+     * @return Vrp solver task.
+     */
     public VrpSolverTask getVrpSolverTask() {
         return vrpSolverTask;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
+        // create vrs from input file
         String fileName = getArguments().getString(VrpKeys.VRP_FILE_NAME.name());
         try {
             vrs = (VehicleRoutingSolution)  VehicleRoutingImporter.readSolution(
@@ -81,17 +117,26 @@ public class VrpFragment extends Fragment {
             getActivity().onBackPressed();
         }
 
+        // get time limit and algorithm from bundle
         timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name());
         algorithm = getArguments().getString(VrpKeys.VRP_ALGORITHM.name());
+
+        // create solver task and progress bar
         vrpSolverTask = new VrpSolverTask(this, timeLimitInSeconds, algorithm);
         progressBarTask = new ProgressBarTask(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_vrp, container, false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -99,14 +144,20 @@ public class VrpFragment extends Fragment {
         ((VrpView) mainActivity.findViewById(R.id.vrp_view)).setActualSolution(vrs);
         mainActivity.unlockDrawer();
 
+        // initialize progress bar
         ProgressBar pb = (ProgressBar)getActivity().findViewById(R.id.progress_bar);
         pb.setMax(timeLimitInSeconds);
         pb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.dark_blue), PorterDuff.Mode.SRC_IN);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_vrp, menu);
+
+        // according to solver task status change play/ stop icon
         MenuItem playStopButton = menu.findItem(R.id.action_run);
         if (vrpSolverTask.isRunning()) {
             playStopButton.setIcon(R.drawable.ic_stop_white_24dp);
@@ -116,11 +167,15 @@ public class VrpFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_run) {
+            // according to solver task status change play/ stop icon, start or stop solver
             vrpSolverTask.cancelToast();
             if (vrpSolverTask.isRunning()) {
                 vrpSolverTask.stopTask();
@@ -139,11 +194,11 @@ public class VrpFragment extends Fragment {
             return true;
         } else if (id == R.id.action_about) {
             AboutAppDialog aad = new AboutAppDialog();
-            aad.show(getActivity().getSupportFragmentManager(), "");
+            aad.show(getActivity().getSupportFragmentManager(), null);
             return true;
         } else if (id == R.id.action_legend) {
             LegendDialog aad = new LegendDialog();
-            aad.show(getActivity().getSupportFragmentManager(), "");
+            aad.show(getActivity().getSupportFragmentManager(), null);
             return true;
         }
 

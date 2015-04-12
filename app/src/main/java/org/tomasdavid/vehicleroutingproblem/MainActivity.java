@@ -10,20 +10,36 @@ import android.view.Gravity;
 import org.tomasdavid.vehicleroutingproblem.components.StopSolverDialog;
 import org.tomasdavid.vehicleroutingproblem.fragments.MainFragment;
 import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
+import org.tomasdavid.vehicleroutingproblem.tasks.VrpSolverTask;
 
+/**
+ * Main and only activity of application.
+ */
 public class MainActivity extends ActionBarActivity {
 
-    private DrawerLayout mDrawerLayout;
+    /**
+     * Navigation drawer for displaying statistics.
+     */
+    private DrawerLayout statsDrawer;
 
+    /**
+     * Unlock navigation drawer.
+     */
     public void unlockDrawer() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.VISIBLE);
+        statsDrawer.setDrawerLockMode(DrawerLayout.VISIBLE);
     }
 
+    /**
+     * Hide and lock navigation drawer.
+     */
     public void lockDrawer() {
-        mDrawerLayout.closeDrawer(Gravity.START);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.INVISIBLE);
+        statsDrawer.closeDrawer(Gravity.START);
+        statsDrawer.setDrawerLockMode(DrawerLayout.INVISIBLE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,17 +47,17 @@ public class MainActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        statsDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         lockDrawer();
-
         if (savedInstanceState == null) {
             MainFragment fragment = new MainFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.activity_main, fragment).commit();
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.activity_main);

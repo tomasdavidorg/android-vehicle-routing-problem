@@ -1,4 +1,4 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.painter;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,6 +19,8 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
 import org.optaplanner.examples.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
+import org.tomasdavid.vehicleroutingproblem.R;
+import org.tomasdavid.vehicleroutingproblem.adapters.StatisticItem;
 
 import java.util.ArrayList;
 import java.util.List;

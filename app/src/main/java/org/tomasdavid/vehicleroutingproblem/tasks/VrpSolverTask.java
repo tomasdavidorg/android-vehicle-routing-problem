@@ -1,4 +1,4 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -12,27 +12,58 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.tomasdavid.vehicleroutingproblem.R;
 import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Vrp solver tasks for calculation of vehicle routing problem.
+ */
 public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRoutingSolution, VehicleRoutingSolution> {
 
+    /**
+     * Class tag.
+     */
     private static final String TAG = "VrpSolverTask";
 
+    /**
+     * Status of this task.
+     */
     private boolean running;
 
+    /**
+     * Time limit for solving.
+     */
     private int timeLimit;
 
+    /**
+     * Solver of problem.
+     */
     private Solver solver;
 
+    /**
+     * Fragment where solution is displayed.
+     */
     private VrpFragment fragment;
 
+    /**
+     * Informative toast.
+     */
     private Toast toast;
 
+    /**
+     * Algorithm for calculation.
+     */
     private String algorithm;
 
+    /**
+     * Constructor of solver task.
+     * @param fragment Fragment where solution is displayed.
+     * @param timeLimit Time limit for solving.
+     * @param algorithm Algorithm for calculation.
+     */
     public VrpSolverTask(VrpFragment fragment, int timeLimit, String algorithm) {
         this.fragment = fragment;
         this.running = false;
@@ -40,10 +71,17 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
         this.algorithm = algorithm;
     }
 
+    /**
+     * Returns true if solver is running otherwise false.
+     * @return True if solver is running otherwise false.
+     */
     public boolean isRunning() {
         return running;
     }
 
+    /**
+     * Stops task and solver
+     */
     public void stopTask() {
         running = false;
         if (solver != null) {
@@ -51,12 +89,18 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
         }
     }
 
+    /**
+     * Cancel last toast.
+     */
     public void cancelToast() {
         if (toast != null) {
             toast.cancel();
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onPreExecute() {
         running = true;
@@ -67,10 +111,14 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
         toast.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected VehicleRoutingSolution doInBackground(VehicleRoutingSolution... vrs) {
         Log.d(TAG, "Building solver.");
 
+        // creates solver
         try {
             InputStream is = fragment.getActivity().getAssets().open("solvers/" + algorithm);
             String solverConfig = IOUtils.toString(is);
@@ -79,7 +127,7 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
             e.printStackTrace();
         }
 
-
+        // adds solver listener for new best solution
         solver.addEventListener(new SolverEventListener() {
             @Override
             public void bestSolutionChanged(BestSolutionChangedEvent event) {
@@ -88,18 +136,28 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
                 }
             }
         });
+
+        // starts solver
         Log.d(TAG, "Solver built, running solver.");
         solver.solve(vrs[0]);
+
+        // end of calculation
         running = false;
         return (VehicleRoutingSolution) solver.getBestSolution();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onProgressUpdate(VehicleRoutingSolution... solutions) {
         Log.d(TAG, "New best solution found.");
         fragment.setVrs(solutions[0]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onPostExecute(VehicleRoutingSolution solution) {
         Log.d(TAG, "Calculation finished.");

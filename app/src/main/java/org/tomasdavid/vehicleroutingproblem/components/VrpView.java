@@ -10,9 +10,9 @@ import android.widget.ListView;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.tomasdavid.vehicleroutingproblem.R;
-import org.tomasdavid.vehicleroutingproblem.StatisticItem;
-import org.tomasdavid.vehicleroutingproblem.StatisticsListAdapter;
-import org.tomasdavid.vehicleroutingproblem.VrpPainter;
+import org.tomasdavid.vehicleroutingproblem.adapters.StatisticItem;
+import org.tomasdavid.vehicleroutingproblem.adapters.StatisticsListAdapter;
+import org.tomasdavid.vehicleroutingproblem.painter.VrpPainter;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -93,6 +93,9 @@ public class VrpView extends View {
         this.actualSolution = actualSolution;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

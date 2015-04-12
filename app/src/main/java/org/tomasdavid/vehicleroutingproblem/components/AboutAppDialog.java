@@ -33,6 +33,9 @@ public class AboutAppDialog extends DialogFragment implements DialogInterface.On
             "<p>Application demonstrate OptaPlanner functionality on the Android platform. " +
             "Demonstration is exemplified by Vehicle routing problem example.</p>";
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,6 +46,9 @@ public class AboutAppDialog extends DialogFragment implements DialogInterface.On
         return builder.create();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onClick(DialogInterface dialog, int which) {
         dialog.cancel();

@@ -18,6 +18,9 @@ import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
  */
 public class StopSolverDialog extends DialogFragment implements OnClickListener {
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,6 +31,9 @@ public class StopSolverDialog extends DialogFragment implements OnClickListener 
         return builder.create();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onClick(DialogInterface dialog, int which) {
         if (which == DialogInterface.BUTTON_POSITIVE) {

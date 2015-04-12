@@ -40,6 +40,9 @@ public class OpenFileButton extends Button implements View.OnClickListener {
         this.setOnClickListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onClick(View v) {
         FragmentActivity activity = (FragmentActivity) v.getContext();

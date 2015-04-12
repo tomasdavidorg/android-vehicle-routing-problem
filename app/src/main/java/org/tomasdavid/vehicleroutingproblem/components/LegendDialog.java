@@ -26,6 +26,9 @@ public class LegendDialog extends DialogFragment implements DialogInterface.OnCl
      */
     private static final String TITLE = "Legend";
 
+    /**
+     * {@inheritDoc}
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -37,6 +40,9 @@ public class LegendDialog extends DialogFragment implements DialogInterface.OnCl
         return builder.create();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onClick(DialogInterface dialog, int which) {
         dialog.cancel();
