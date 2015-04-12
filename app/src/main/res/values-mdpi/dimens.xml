@@ -1,8 +1,0 @@
-<resources>
-    <dimen name="margin_width">48px</dimen>
-    <dimen name="margin_height">32px</dimen>
-    <dimen name="customer_radius">6dp</dimen>
-    <dimen name="time_window_pointer_start">5dp</dimen>
-    <dimen name="time_window_pointer_end">7dp</dimen>
-    <dimen name="dash_length">6dp</dimen>
-</resources>
