@@ -3,7 +3,13 @@
 
     <style name="Theme.VrpTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/red</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="actionOverflowButtonStyle">@style/Theme.VrpTheme.OverFlow</item>
+    </style>
+
+    <style name="Theme.VrpTheme.Light" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
         <item name="actionOverflowButtonStyle">@style/Theme.VrpTheme.OverFlow</item>
     </style>
 

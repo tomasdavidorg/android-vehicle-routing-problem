@@ -93,7 +93,7 @@ public class VrpFragment extends Fragment {
 
         ProgressBar pb = (ProgressBar)getActivity().findViewById(R.id.progress_bar);
         pb.setMax(timeLimitInSeconds);
-        pb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.dark_green), PorterDuff.Mode.SRC_IN);
+        pb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.dark_blue), PorterDuff.Mode.SRC_IN);
     }
 
     @Override

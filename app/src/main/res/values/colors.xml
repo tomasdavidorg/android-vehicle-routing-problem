@@ -20,4 +20,6 @@
 
     <color name="transparent_white">#AAFFFFFF</color>
     <color name="transparent_grey">#AA9E9E9E</color>
+
+    <color name="dark_blue">#1976D2</color>
 </resources>
