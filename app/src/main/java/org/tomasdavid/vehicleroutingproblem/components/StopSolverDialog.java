@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 
 import org.tomasdavid.vehicleroutingproblem.MainActivity;
 import org.tomasdavid.vehicleroutingproblem.R;
@@ -43,6 +44,7 @@ public class StopSolverDialog extends DialogFragment implements OnClickListener 
             // solver is stopped, nav. drawer is hidden and list fragment is displayed
             Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.activity_main);
             if (fragment instanceof VrpFragment) {
+                ((Toolbar) getActivity().findViewById(R.id.toolbar)).setNavigationIcon(null);
                 (((VrpFragment) fragment).getVrpSolverTask()).stopTask();
                 ((MainActivity) getActivity()).lockDrawer();
                 getActivity().onBackPressed();

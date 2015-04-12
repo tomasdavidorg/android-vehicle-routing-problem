@@ -70,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
                 return;
             } else {
                 lockDrawer();
+                ((Toolbar) findViewById(R.id.toolbar)).setNavigationIcon(null);
             }
         }
         super.onBackPressed();

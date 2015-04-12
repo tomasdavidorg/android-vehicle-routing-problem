@@ -6,7 +6,10 @@ import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -118,6 +121,16 @@ public class VrpFragment extends Fragment {
             Toast.makeText(getActivity(), "File was not found.", Toast.LENGTH_SHORT).show();
             getActivity().onBackPressed();
         }
+
+        // adds left menu button for navigation drawer
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).openDrawer(Gravity.LEFT);
+            }
+        });
 
         // get time limit and algorithm from bundle
         timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name());
