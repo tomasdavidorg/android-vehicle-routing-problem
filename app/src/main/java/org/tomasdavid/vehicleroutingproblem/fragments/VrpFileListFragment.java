@@ -1,4 +1,4 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,10 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.tomasdavid.vehicleroutingproblem.R;
+import org.tomasdavid.vehicleroutingproblem.VrpFileListAdapter;
+import org.tomasdavid.vehicleroutingproblem.VrpKeys;
 
 import java.io.IOException;
 import java.util.ArrayList;

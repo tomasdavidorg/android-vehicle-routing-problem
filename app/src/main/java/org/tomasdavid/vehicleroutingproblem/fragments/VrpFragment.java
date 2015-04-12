@@ -1,4 +1,4 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.fragments;
 
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -18,6 +18,14 @@ import android.widget.Toast;
 
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.persistence.VehicleRoutingImporter;
+import org.tomasdavid.vehicleroutingproblem.AboutAppDialog;
+import org.tomasdavid.vehicleroutingproblem.LegendDialog;
+import org.tomasdavid.vehicleroutingproblem.MainActivity;
+import org.tomasdavid.vehicleroutingproblem.ProgressBarTask;
+import org.tomasdavid.vehicleroutingproblem.R;
+import org.tomasdavid.vehicleroutingproblem.VrpKeys;
+import org.tomasdavid.vehicleroutingproblem.VrpSolverTask;
+import org.tomasdavid.vehicleroutingproblem.VrpView;
 
 import java.io.File;
 import java.io.IOException;

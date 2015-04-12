@@ -1,4 +1,4 @@
-package org.tomasdavid.vehicleroutingproblem;
+package org.tomasdavid.vehicleroutingproblem.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.tomasdavid.vehicleroutingproblem.AboutAppDialog;
+import org.tomasdavid.vehicleroutingproblem.LegendDialog;
+import org.tomasdavid.vehicleroutingproblem.R;
 
 /**
  * Main fragment with settings.

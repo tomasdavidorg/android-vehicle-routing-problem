@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
+import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
+
 public class SolverRunningDialog extends DialogFragment {
 
     @NonNull

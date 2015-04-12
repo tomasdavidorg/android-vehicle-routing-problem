@@ -9,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
+
 public class VrpFileListAdapter extends RecyclerView.Adapter<VrpFileListAdapter.VrpFileItemViewHolder> {
 
     private int timeLimit;

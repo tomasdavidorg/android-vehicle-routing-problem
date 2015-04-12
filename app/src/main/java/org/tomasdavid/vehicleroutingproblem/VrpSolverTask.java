@@ -12,6 +12,7 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
 
 import java.io.IOException;
 import java.io.InputStream;

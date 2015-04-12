@@ -7,6 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 
+import org.tomasdavid.vehicleroutingproblem.fragments.MainFragment;
+import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
+
 public class MainActivity extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;

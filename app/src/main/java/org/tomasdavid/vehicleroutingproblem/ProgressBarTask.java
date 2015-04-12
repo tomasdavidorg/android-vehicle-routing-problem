@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
 
+import org.tomasdavid.vehicleroutingproblem.fragments.VrpFragment;
+
 public class ProgressBarTask extends AsyncTask<Integer, Void, Void> {
 
     private static final String TAG = "ProgressBarTask";
