@@ -122,16 +122,6 @@ public class VrpFragment extends Fragment {
             getActivity().onBackPressed();
         }
 
-        // adds left menu button for navigation drawer
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).openDrawer(Gravity.LEFT);
-            }
-        });
-
         // get time limit and algorithm from bundle
         timeLimitInSeconds = getArguments().getInt(VrpKeys.VRP_TIME_LIMIT.name());
         algorithm = getArguments().getString(VrpKeys.VRP_ALGORITHM.name());
@@ -158,6 +148,16 @@ public class VrpFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         ((VrpView) mainActivity.findViewById(R.id.vrp_view)).setActualSolution(vrs);
         mainActivity.unlockDrawer();
+
+        // adds left menu button for navigation drawer
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout) getActivity().findViewById(R.id.drawer_layout)).openDrawer(Gravity.LEFT);
+            }
+        });
 
         // initialize progress bar
         ProgressBar pb = (ProgressBar)getActivity().findViewById(R.id.progress_bar);
