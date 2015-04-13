@@ -24,4 +24,5 @@
 
     <color name="dark_blue">#1976D2</color>
 
+    <color name="transparent">#FFFFFFFF</color>
 </resources>
