@@ -12,37 +12,39 @@
         android:layout_height="match_parent">
 
         <TableRow
-            android:layout_margin="10dp">
+            android:layout_margin="@dimen/margin">
 
             <ImageView
                 android:src="@drawable/vehicle_blue"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
                 android:layout_gravity="center"/>
 
             <TextView
                 android:text="@string/legend_vehicle"
                 android:layout_margin="10dp"
+                android:textSize="@dimen/text_size"
                 android:layout_gravity="left|center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
         </TableRow>
 
         <TableRow
-            android:layout_margin="10dp">
+            android:layout_margin="@dimen/margin">
 
             <ImageView
                 android:src="@drawable/depot"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
                 android:layout_gravity="center"/>
 
             <TextView
                 android:text="@string/legend_depot"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
                 android:layout_gravity="left|center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
         </TableRow>
 
         <TableRow
-            android:layout_margin="10dp" >
+            android:layout_margin="@dimen/margin" >
 
             <TextView
                 android:text="@string/legend_demand"
@@ -50,12 +52,13 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
                 android:background="@drawable/shape_customer"/>
 
             <TextView
                 android:text="@string/legend_customer"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
                 android:layout_gravity="left|center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
@@ -66,30 +69,32 @@
             <View
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
                 android:background="@drawable/shape_line"
                 android:layerType="software"/>
 
             <TextView
                 android:text="@string/legend_road"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
                 android:layout_gravity="left|center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
         </TableRow>
 
         <TableRow
-            android:layout_margin="10dp" >
+            android:layout_margin="@dimen/margin" >
 
             <View
                 android:layout_height="10dp"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
                 android:background="@drawable/shape_dash_line"
                 android:layerType="software"/>
 
             <TextView
                 android:text="@string/legend_depot_road"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
                 android:layout_gravity="left|center_vertical"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 

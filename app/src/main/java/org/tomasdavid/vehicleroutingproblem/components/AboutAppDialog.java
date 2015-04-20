@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
+import android.view.LayoutInflater;
+
+import org.tomasdavid.vehicleroutingproblem.R;
 
 /**
  * Dialog for providing basic information about the application.
@@ -27,22 +29,15 @@ public class AboutAppDialog extends DialogFragment implements DialogInterface.On
     private static final String TITLE = "About application";
 
     /**
-     * Body of dialog.
-     */
-    private static final String MESSAGE = "<b>Author:</b> Tomas David<br>" +
-            "<b>Year:</b> 2015" +
-            "<p>Application demonstrate OptaPlanner functionality on the Android platform. " +
-            "Demonstration is exemplified by Vehicle routing problem example.</p>";
-
-    /**
      * {@inheritDoc}
      */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setTitle(TITLE)
-               .setMessage(Html.fromHtml(MESSAGE))
+               .setView(inflater.inflate(R.layout.dialog_info, null))
                .setPositiveButton(OK, this);
         return builder.create();
     }

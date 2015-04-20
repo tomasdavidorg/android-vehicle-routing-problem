@@ -44,6 +44,10 @@
         After that, you can select example vrp problem to solve.</p>
         ]]>
     </string>
+    <string name="about_app"><b>Author:</b> Tomas David\n\n<b>Year:</b> 2015\n\nApplication demonstrate
+        OptaPlanner functionality on the Android platform. Demonstration is exemplified by Vehicle
+        routing problem example.
+    </string>
 
     <!-- Algorithms -->
     <string name="first_fit_decreasing">FFD with LA</string>
