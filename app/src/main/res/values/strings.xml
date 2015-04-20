@@ -46,7 +46,7 @@
     </string>
 
     <!-- Algorithms -->
-    <string name="first_fit_decreasing">First fit decreasing</string>
+    <string name="first_fit_decreasing">FFD with LA</string>
     <string name="branch_and_bound">Branch and bound</string>
     <string name="brute_force">Brute force</string>
 
