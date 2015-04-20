@@ -12,7 +12,8 @@
     </scoreDirectorFactory>
 
     <termination>
-        <secondsSpentLimit>TIME_LIMIT</secondsSpentLimit>
+        <!-- default time limit -->
+        <secondsSpentLimit>10</secondsSpentLimit>
     </termination>
 
     <exhaustiveSearch>

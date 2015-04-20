@@ -6,7 +6,6 @@ import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.apache.commons.io.IOUtils;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -38,7 +37,7 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
     /**
      * Time limit for solving.
      */
-    private int timeLimit;
+    private long timeLimit;
 
     /**
      * Solver of problem.
@@ -123,8 +122,9 @@ public class VrpSolverTask extends AsyncTask<VehicleRoutingSolution, VehicleRout
         // creates solver
         try {
             InputStream is = fragment.getActivity().getAssets().open("solvers/" + algorithm);
-            String solverConfig = IOUtils.toString(is);
-            solver = SolverFactory.createFromXmlInputStream(IOUtils.toInputStream(solverConfig.replace("TIME_LIMIT", Integer.toString(timeLimit)))).buildSolver();
+            SolverFactory solverFactory = SolverFactory.createFromXmlInputStream(is);
+            solverFactory.getSolverConfig().getTerminationConfig().setSecondsSpentLimit(timeLimit);
+            solver = solverFactory.buildSolver();
         } catch (IOException e) {
             e.printStackTrace();
         }
