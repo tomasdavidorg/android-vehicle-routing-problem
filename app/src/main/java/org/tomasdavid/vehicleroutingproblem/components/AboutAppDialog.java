@@ -52,7 +52,7 @@ public class AboutAppDialog extends DialogFragment implements DialogInterface.On
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setTitle(TITLE)
+        builder.setTitle(R.string.action_about)
                .setView(inflater.inflate(R.layout.dialog_info, null))
                .setPositiveButton(OK, this);
         return builder.create();

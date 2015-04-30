@@ -7,14 +7,14 @@
 
     <!-- Menu items -->
     <string name="action_run">Run</string>
-    <string name="action_about">About application</string>
+    <string name="action_about">About this application</string>
     <string name="action_legend">Legend</string>
 
     <!-- Directories -->
     <string name="vrps_dir">vrps</string>
 
     <!-- Dialog messages -->
-    <string name="solver_running_message">Solver is running. Do you want stop the solver?</string>
+    <string name="solver_running_message">Solver is running. Do you want to stop the solver?</string>
 
     <!-- Toast messages -->
     <string name="calculation_started">Calculation started.</string>
@@ -44,7 +44,7 @@
         After that, you can select example vrp problem to solve.</p>
         ]]>
     </string>
-    <string name="about_app"><b>Author:</b> Tomas David\n\n<b>Year:</b> 2015\n\nApplication demonstrate
+    <string name="about_app"><b>Author:</b> Tomas David\n\n<b>Year:</b> 2015\n\nThe application demonstrates
         OptaPlanner functionality on the Android platform. Demonstration is exemplified by Vehicle
         routing problem example.
     </string>
