@@ -39,9 +39,9 @@
     <string name="select_file_text">3. Continue to select file</string>
     <string name="welcome_text">
         <![CDATA[
-        <h2>Welcome to the Vehicle Routing Problem Application!</h2>
-        <p>Please select time limit in seconds, algorithm for calculation and click to the Open file button.
-        After that, you can select example vrp problem to solve.</p>
+        <h2>Welcome to the Vehicle Routing Problem application!</h2>
+        <p>Please select time limit in seconds, algorithm for calculation and click on the Open file button.
+        After that, you can select example of vrp problem to solve.</p>
         ]]>
     </string>
     <string name="about_app"><b>Author:</b> Tomas David\n\n<b>Year:</b> 2015\n\nThe application demonstrates
