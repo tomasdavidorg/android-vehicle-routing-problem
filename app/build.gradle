@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+import com.android.build.gradle.tasks.Dex
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -28,6 +30,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
 
+    }
+    dexOptions {
+        preDexLibraries = false
+    }
+    project.tasks.withType(Dex) {
+        additionalParameters=['--core-library']
     }
 }
 
