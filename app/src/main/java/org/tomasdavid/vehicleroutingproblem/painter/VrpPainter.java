@@ -195,10 +195,18 @@ public class VrpPainter {
 //                ct.setColor(res.getColor(R.color.black));
             }
 
+            String capacityString;
+            int capacity = vehicle.getCapacity();
+            if (capacity > 1000) {
+                capacityString = Integer.toString(capacity / 1000) + "k";
+            } else {
+                capacityString = Integer.toString(capacity);
+            }
+
             statisticItemList.add(new StatisticItem(
                     res.obtainTypedArray(R.array.vehicles).getResourceId(colorIndex, 0),
                     Vehicle.class.getSimpleName() + " " + vehicle.getId(),
-                    load + " / " + vehicle.getCapacity()));
+                    load + "/" + capacityString));
 
             // change color index
             colorIndex = (colorIndex + 1) % res.obtainTypedArray(R.array.vehicle_colors).length();
@@ -226,7 +234,14 @@ public class VrpPainter {
             RectF oval = new RectF(x - radius, y - radius, x + radius, y + radius);
             c.drawOval(oval, ci);
             c.drawOval(oval, cc);
-            String demandString = Integer.toString(customer.getDemand());
+
+            int demand = customer.getDemand();
+            String demandString;
+            if (demand > 1000) {
+                demandString = Integer.toString(demand / 1000) + "k";
+            } else {
+                demandString = Integer.toString(demand);
+            }
 
             // draw customer time window
             if (customer instanceof TimeWindowedCustomer) {
