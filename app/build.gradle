@@ -10,8 +10,8 @@ android {
         applicationId "org.tomasdavid.vehicleroutingproblem"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.0"
+        versionCode 4
+        versionName "1.0-final"
     }
     buildTypes {
         release {

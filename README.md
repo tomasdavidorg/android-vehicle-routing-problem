@@ -1,23 +1,20 @@
-# Vehicle Routing Problem
-
-## Summary
+# Vehicle Routing Problem application
 
 The Application demonstrate OptaPlanner functionality on the Android platform.
 
-## Build
+## How to build and run this application
 
 To build and run the application follow these steps:
 
-1. Download adnroid-sdk.
+1. Download android-sdk.
 2. Clone this project.
-3. Create `local.properties` file with two properties:
+3. Create `local.properties` file with one property:
 
 ```
-build-tools.version=x.y.z
 sdk.dir=.../android-sdk
 ```
 
-4. Run `gradle editDx`
-5. Run `gradle build`
-6. Run `gradle assembleDebug`
-7. Run `adb install app/build/outputs/apk/app-debug.apk`
+4. Run `gradle build`.
+5. Run `gradle assembleDebug`.
+6. Run `adb install app/build/outputs/apk/app-debug.apk`.
+7. Open application in device.
