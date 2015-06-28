@@ -1,3 +1,5 @@
+// version 6.2.0 of OptaPlanner requires JavaBeans libraries repacked into jar file
+/*
 import java.nio.channels.Channels
 import java.nio.channels.ReadableByteChannel
 
@@ -13,11 +15,7 @@ String LIBS_DIR = "app/libs/";
 String RULE = "rule com.googlecode.openbeans.** java.beans.@1";
 String COMMAND = "java -jar " + JARJAR + " process " + RULES + " " + OPENBEANS + " " + JAVABEANS;
 
-/**
- * Downloads file from url.
- * @param url Url of file.
- * @param path Output path.
- */
+
 void downloadJar(String url, String path) {
     File file = new File(path);
     if (!file.exists()) {
@@ -28,10 +26,6 @@ void downloadJar(String url, String path) {
     }
 }
 
-/**
- * Deletes specified file.
- * @param path Path to file.
- */
 void deleteFile(String path) {
     File file = new File(path);
     if (file.exists()) {
@@ -175,6 +169,7 @@ downloadJarJar.dependsOn checkLibsDir
 dowloadOpenBeans.dependsOn checkLibsDir
 repackOpenBeans.dependsOn deleteJavaBeans, createRuleFile, downloadJarJar, dowloadOpenBeans
 repackOpenBeans.finalizedBy deleteJarJar, deleteOpenBeans, deleteRule
+*/
 
 buildscript {
     repositories {
