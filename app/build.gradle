@@ -41,8 +41,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.android.support:recyclerview-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     compile ('org.optaplanner:optaplanner-core:6.3.0-SNAPSHOT') {
         exclude group: 'xmlpull'
         exclude group: 'org.drools'
